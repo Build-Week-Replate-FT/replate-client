@@ -1,1 +1,1 @@
-export { userConstants } from './user.constants';
+export { userConstants } from './user.actions';
