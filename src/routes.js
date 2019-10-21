@@ -6,10 +6,10 @@ import { LandingPage, SecondaryPage, BusinessSignUp, VolunteerSignUp } from './c
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path='/' component={LandingPage} />
-      <Route path='/page2' component={SecondaryPage} />
       <Route path='/BusinessSignUp' component={BusinessSignUp} />
       <Route path='/VolunteerSignUp' component={VolunteerSignUp} />
+      <Route path='/page2' component={SecondaryPage} />
+      <Route path='/' component={LandingPage} />
     </Switch>
   );
 }

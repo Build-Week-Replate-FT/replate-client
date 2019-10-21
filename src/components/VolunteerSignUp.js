@@ -7,11 +7,11 @@ export function VolunteerSignUp() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" placeholder="Email" name="Email" ref={register({required: true})} />
-        <input type="text" placeholder="Name" name="Name" ref={register({required: true, maxLength: 100})} />
-        <input type="password" placeholder="Password" name="Password" ref={register({required: true, min: 6})} />
+            <input type="text" placeholder="Name" name="Name" ref={register({required: true, maxLength: 100})} />
+            <input type="email" placeholder="Email" name="Email" ref={register({required: true})} />
+            <input type="password" placeholder="Password" name="Password" ref={register({required: true, min: 6})} />
 
-        <input type="submit" />
+            <button type="submit" >Sign Up</button>
         </form>
     );
 }
