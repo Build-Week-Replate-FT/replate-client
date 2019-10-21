@@ -1,1 +1,2 @@
-export { LandingPage, SecondaryPage } from './LandingPage';
+export { LandingPage } from './LandingPage';
+export { SecondaryPage } from './SecondaryPage';
