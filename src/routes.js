@@ -1,12 +1,13 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
-import { LandingPage } from "./components";
+import { LandingPage, SecondaryPage } from './components';
 
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" component={LandingPage} />
+      <Route path='/page2' component={SecondaryPage} />
+      <Route path='/' component={LandingPage} />
     </Switch>
   );
 }
