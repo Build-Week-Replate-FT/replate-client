@@ -1,4 +1,4 @@
-import { userConstants } from '../constants';
+import { userConstants } from '../actions';
 const { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } = userConstants;
 
 let user = {};

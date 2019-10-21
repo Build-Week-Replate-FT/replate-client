@@ -1,4 +1,4 @@
-import { userConstants } from '../constants';
+import { userConstants } from '../actions';
 const { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } = userConstants;
 
 const initialState = {
