@@ -1,5 +1,5 @@
 import { axiosWithAuth } from '../utils';
-import { userConstants } from '../actions';
+import { userActions } from '../actions';
 
 const {
   REGISTER_REQUEST,
@@ -8,22 +8,13 @@ const {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-} = userConstants;
-
-export const userAPI = {
-  register,
-  login,
-  logout,
-};
+} = userActions;
 
 async function register(
   { userType, email, name, password, address = '', city = '', state = '', zip = '' },
   dispatch,
   redirect
 ) {
-  // create a user object to register with backend service.
-  // the register function accepts all possible fields for creating a user
-  // but defaults the optional properties to empty strings
   const user = {
     userType,
     email,
@@ -35,30 +26,27 @@ async function register(
     zip,
   };
 
-  // start the request
   dispatch.request({ type: REGISTER_REQUEST });
   try {
-    // on successful registration, store the user in local state and send out the registration success action
-    const registeredUser = await axiosWithAuth('baseURL').post('/register', user);
+    const registeredUser = await axiosWithAuth('https://jsonplaceholder.typicode.com').post('/users', user);
     dispatch.success({ type: REGISTER_SUCCESS, payload: registeredUser });
-    localStorage.setItem('user', registeredUser);
+    // localStorage.setItem('token', registeredUser.token);
+    // window.localStorage.setItem('user', JSON.stringify(registeredUser.userData));
     redirect && redirect();
   } catch (error) {
-    // on a failed registration, send out the registration failed action
     dispatch.failure({ type: REGISTER_FAILURE, payload: error });
   }
 }
 
 async function login({ email, password }, dispatch, redirect) {
-  // take the user's credentials and make a POST request to the backend service to authenticate the user
   const credentials = { email, password };
 
-  // start the login request
   dispatch.request({ type: LOGIN_REQUEST });
   try {
     const successfulLogin = await axiosWithAuth('baseURL').post('/login', credentials);
     dispatch.success({ type: LOGIN_SUCCESS, payload: successfulLogin });
-    localStorage.setItem('user', successfulLogin);
+    // localStorage.setItem('token', successfulLogin.token);
+    // window.localStorage.setItem('user', JSON.stringify(successfulLogin.userData));
     redirect && redirect();
   } catch (error) {
     dispatch.failure({ type: LOGIN_FAILURE, payload: error });
@@ -66,7 +54,17 @@ async function login({ email, password }, dispatch, redirect) {
 }
 
 function logout(redirect) {
-  // remove the user object from localStorage
+  localStorage.removeItem('token');
   localStorage.removeItem('user');
   redirect && redirect();
 }
+
+function getToken() {
+  return window.localStorage.getItem('token');
+}
+
+function getUser() {
+  return JSON.parse(window.localStorage.getItem('user'));
+}
+
+export { register, login, logout, getToken, getUser };
