@@ -1,14 +1,32 @@
-import { axiosWithAuth } from "../utils";
+import { axiosWithAuth } from '../utils';
 
-import { baseURL } from "./config.api";
+import { baseURL } from './config.api';
 
-const register = async user => {
-  console.log(user);
-  return await axiosWithAuth(baseURL).post("api/users", user);
+const handleUserResponse = (user, token) => {
+  console.log(user, token);
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', token);
+  return user;
 };
 
-function getUser() {
-  JSON.parse(localStorage.getItem("user"));
-}
+const register = async user => {
+  return await axiosWithAuth(baseURL)
+    .post('api/users', user)
+    .then(handleUserResponse);
+};
 
-export { register, getUser };
+const login = async credentials => {
+  return await axiosWithAuth(baseURL)
+    .post('api/login', credentials)
+    .then(handleUserResponse);
+};
+
+const getUser = () => {
+  JSON.parse(localStorage.getItem('user'));
+};
+
+const getToken = () => {
+  JSON.parse(localStorage.getItem('user'));
+};
+
+export { register, login, getUser, getToken };
