@@ -1,5 +1,6 @@
 import { axiosWithAuth } from '../utils';
 import { userActions } from '../actions';
+import { baseURL } from './config.api';
 
 const {
   REGISTER_REQUEST,
@@ -28,7 +29,7 @@ async function register(
 
   dispatch.request({ type: REGISTER_REQUEST });
   try {
-    const registeredUser = await axiosWithAuth('https://jsonplaceholder.typicode.com').post('/users', user);
+    const registeredUser = await axiosWithAuth(baseURL).post('api/register', user);
     dispatch.success({ type: REGISTER_SUCCESS, payload: registeredUser });
     // localStorage.setItem('token', registeredUser.token);
     // localStorage.setItem('user', JSON.stringify(registeredUser.userData));
@@ -43,7 +44,7 @@ async function login({ email, password }, dispatch, redirect) {
 
   dispatch.request({ type: LOGIN_REQUEST });
   try {
-    const successfulLogin = await axiosWithAuth('baseURL').post('/login', credentials);
+    const successfulLogin = await axiosWithAuth(baseURL).post('api/login', credentials);
     dispatch.success({ type: LOGIN_SUCCESS, payload: successfulLogin });
     // localStorage.setItem('token', successfulLogin.token);
     // localStorage.setItem('user', JSON.stringify(successfulLogin.userData));
