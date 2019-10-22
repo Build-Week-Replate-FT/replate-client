@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container'
 import { useDispatch, useSelector } from "react-redux";
 import { authActionCreators } from "../actions";
 
@@ -21,9 +22,9 @@ const useStyles = makeStyles(theme => ({
   dense: {
     marginTop: theme.spacing(2),
   },
-  menu: {
-    width: 200,
-  },
+  test: {
+		width: '500px'
+  }
 }));
 
 export function VolunteerSignUp({ history }) {
@@ -53,7 +54,7 @@ export function VolunteerSignUp({ history }) {
   }
 
   return (
-    <>
+    <Container className={classes.test}>
         <h1>Volunteer Sign Up</h1>
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
           <TextField
@@ -86,9 +87,9 @@ export function VolunteerSignUp({ history }) {
           />
 
           <Button type='submit' variant="contained" color="primary" className={classes.button}>
-            Submit
+            Sign Up
           </Button>
         </form>
-    </>
+    </Container>
   );
 }
