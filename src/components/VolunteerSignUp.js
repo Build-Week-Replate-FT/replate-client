@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from "react-redux";
+import { authActionCreators } from "../actions";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -24,8 +26,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function VolunteerSignUp() {
+export function VolunteerSignUp({ history }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const authentication = useSelector(state => state.authentication);
 
   const [ values, setValues ] = useState({
     name: '',
@@ -40,6 +44,7 @@ export function VolunteerSignUp() {
   const handleSubmit = event => {
     event.preventDefault();
     console.log(values)
+    dispatch(authActionCreators.registerUser(values, () => history.push("/")));
     setValues({
       name: '',
       email: '',
