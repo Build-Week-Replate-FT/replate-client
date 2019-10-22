@@ -21,6 +21,11 @@ const login = async credentials => {
     .then(handleUserResponse);
 };
 
+const logout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+};
+
 const getUser = () => {
   JSON.parse(localStorage.getItem('user'));
 };
@@ -29,4 +34,4 @@ const getToken = () => {
   JSON.parse(localStorage.getItem('user'));
 };
 
-export { register, login, getUser, getToken };
+export { register, login, logout, getUser, getToken };
