@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
 	},
 	test: {
-		width: '500px'
+		width: '600px'
 	}
 }));
 

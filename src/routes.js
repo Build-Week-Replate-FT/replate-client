@@ -6,9 +6,11 @@ import { LandingPage, SecondaryPage, BusinessSignUp, VolunteerSignUp } from './c
 export default function Routes() {
   return (
     <Switch>
-      <Route path='/BusinessSignUp' component={BusinessSignUp} /> */}
-      <Route path='/VolunteerSignUp' component={VolunteerSignUp} />
+      {/* <Route path='/BusinessSignUp' component={BusinessSignUp} />
+      <Route path='/VolunteerSignUp' component={VolunteerSignUp} /> */}
       <Route path='/page2' component={SecondaryPage} />
+      <Route path='/signup/business' component={LandingPage} />
+      <Route path='/signup/volunteer' component={LandingPage} />
       <Route path='/' component={LandingPage} />
     </Switch>
   );
