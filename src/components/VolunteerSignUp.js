@@ -9,7 +9,7 @@ export function VolunteerSignUp({ history }) {
   const authentication = useSelector(state => state.authentication);
   const onSubmit = data => {
     console.log(data);
-    dispatch(authActionCreators.registerUser(data));
+    dispatch(authActionCreators.registerUser(data, () => history.push("/")));
   };
 
   console.log(authentication);
