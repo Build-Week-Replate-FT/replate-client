@@ -9,7 +9,7 @@ const {
   REGISTER_FAILURE,
 } = userActions;
 
-let user = {};
+let user = getUser() || {};
 const initialState = {
   isPending: false,
   isSettled: false,
