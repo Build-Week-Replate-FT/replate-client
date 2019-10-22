@@ -31,7 +31,7 @@ async function register(
     const registeredUser = await axiosWithAuth('https://jsonplaceholder.typicode.com').post('/users', user);
     dispatch.success({ type: REGISTER_SUCCESS, payload: registeredUser });
     // localStorage.setItem('token', registeredUser.token);
-    // window.localStorage.setItem('user', JSON.stringify(registeredUser.userData));
+    // localStorage.setItem('user', JSON.stringify(registeredUser.userData));
     redirect && redirect();
   } catch (error) {
     dispatch.failure({ type: REGISTER_FAILURE, payload: error });
@@ -46,7 +46,7 @@ async function login({ email, password }, dispatch, redirect) {
     const successfulLogin = await axiosWithAuth('baseURL').post('/login', credentials);
     dispatch.success({ type: LOGIN_SUCCESS, payload: successfulLogin });
     // localStorage.setItem('token', successfulLogin.token);
-    // window.localStorage.setItem('user', JSON.stringify(successfulLogin.userData));
+    // localStorage.setItem('user', JSON.stringify(successfulLogin.userData));
     redirect && redirect();
   } catch (error) {
     dispatch.failure({ type: LOGIN_FAILURE, payload: error });
@@ -60,11 +60,11 @@ function logout(redirect) {
 }
 
 function getToken() {
-  return window.localStorage.getItem('token');
+  return localStorage.getItem('token');
 }
 
 function getUser() {
-  return JSON.parse(window.localStorage.getItem('user'));
+  JSON.parse(localStorage.getItem('user'));
 }
 
 export { register, login, logout, getToken, getUser };
