@@ -7,6 +7,6 @@ const rootReducer = combineReducers({
   authentication,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

@@ -11,11 +11,10 @@ const {
   LOGIN_FAILURE,
 } = userActions;
 
-async function register(
+const register = (
   { userType, email, name, password, address = '', city = '', state = '', zip = '' },
-  dispatch,
   redirect
-) {
+) => async dispatch => {
   const user = {
     // userType,
     email,
@@ -40,7 +39,7 @@ async function register(
   } catch (error) {
     dispatch({ type: REGISTER_FAILURE, payload: error });
   }
-}
+};
 
 async function login({ email, password }, dispatch, redirect) {
   const credentials = { email, password };
