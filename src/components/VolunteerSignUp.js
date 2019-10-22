@@ -1,8 +1,7 @@
-import React from 'react';
-import useForm from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { register as registerNewUser } from '../api';
+import React from "react";
+import useForm from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { authActionCreators } from "../actions";
 
 export function VolunteerSignUp({ history }) {
   const { register, handleSubmit, errors } = useForm();
@@ -10,18 +9,33 @@ export function VolunteerSignUp({ history }) {
   const authentication = useSelector(state => state.authentication);
   const onSubmit = data => {
     console.log(data);
-    dispatch(registerNewUser(data, () => history.push('/')));
+    dispatch(authActionCreators.registerUser(data));
   };
 
   console.log(authentication);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type='text' placeholder='Name' name='name' ref={register({ required: true, maxLength: 100 })} />
-      <input type='email' placeholder='Email' name='email' ref={register({ required: true })} />
-      <input type='password' placeholder='Password' name='password' ref={register({ required: true, min: 6 })} />
+      <input
+        type="text"
+        placeholder="Name"
+        name="name"
+        ref={register({ required: true, maxLength: 100 })}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        name="email"
+        ref={register({ required: true })}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        name="password"
+        ref={register({ required: true, min: 6 })}
+      />
 
-      <button type='submit'>Sign Up</button>
+      <button type="submit">Sign Up</button>
     </form>
   );
 }
