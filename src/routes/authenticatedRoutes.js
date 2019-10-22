@@ -7,14 +7,14 @@ const BusinessRoutes = React.lazy(() => import('./businessRoutes'));
 
 export function AuthenticatedRoutes() {
   const { user } = useSelector(state => state.authentication);
-  let AuthenticatedApp = null;
-  if (user.role === 'volunteer') AuthenticatedApp = <VolunteerRoutes />;
-  if (user.role === 'business') AuthenticatedApp = <BusinessRoutes />;
+  const AuthenticatedRoutes = user.role === 'volunteer' ? VolunteerRoutes : BusinessRoutes;
 
   return (
     <>
       <PublicRoutes />
-      <Suspense fallback={<div>Loading authenticated app..</div>}>{AuthenticatedApp}</Suspense>
+      <Suspense fallback={<div>Loading authenticated app..</div>}>
+        <AuthenticatedRoutes />
+      </Suspense>
     </>
   );
 }
