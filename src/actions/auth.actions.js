@@ -1,4 +1,4 @@
-import { register, login } from '../api';
+import { register, login, logout } from '../api';
 
 const REGISTER_REQUEST = 'USERS_REGISTER_REQUEST';
 const REGISTER_SUCCESS = 'USERS_REGISTER_SUCCESS';
@@ -53,6 +53,12 @@ const loginUser = ({ email, password }, redirect) => async dispatch => {
     });
 };
 
+const logoutUser = redirect => dispatch => {
+  logout();
+  dispatch({ type: LOGOUT });
+  redirect && redirect();
+};
+
 export const authActionTypes = {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -66,4 +72,5 @@ export const authActionTypes = {
 export const authActionCreators = {
   registerUser,
   loginUser,
+  logoutUser,
 };
