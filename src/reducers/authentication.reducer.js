@@ -24,6 +24,8 @@ export function authentication(state = initialState, action) {
       return {
         ...state,
         isPending: true,
+        error: null,
+        isSettled: false,
       };
     case LOGIN_SUCCESS:
       console.log(LOGIN_SUCCESS);
@@ -47,6 +49,8 @@ export function authentication(state = initialState, action) {
       return {
         ...state,
         isPending: true,
+        error: null,
+        isSettled: false,
       };
     case REGISTER_SUCCESS:
       console.log(REGISTER_SUCCESS);

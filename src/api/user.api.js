@@ -17,40 +17,43 @@ async function register(
   redirect
 ) {
   const user = {
-    userType,
+    // userType,
     email,
-    name,
+    // name,
     password,
-    address,
-    city,
-    state,
-    zip,
+    // address,
+    // city,
+    // state,
+    // zip,
   };
 
-  dispatch.request({ type: REGISTER_REQUEST });
+  dispatch({ type: REGISTER_REQUEST });
   try {
-    const registeredUser = await axiosWithAuth(baseURL).post('api/register', user);
-    dispatch.success({ type: REGISTER_SUCCESS, payload: registeredUser });
+    console.log(user);
+    console.log(baseURL + 'api/register');
+    const registeredUser = await axiosWithAuth(baseURL).post('api/users', user);
+    console.log(registeredUser);
+    dispatch({ type: REGISTER_SUCCESS, payload: registeredUser });
     // localStorage.setItem('token', registeredUser.token);
     // localStorage.setItem('user', JSON.stringify(registeredUser.userData));
     redirect && redirect();
   } catch (error) {
-    dispatch.failure({ type: REGISTER_FAILURE, payload: error });
+    dispatch({ type: REGISTER_FAILURE, payload: error });
   }
 }
 
 async function login({ email, password }, dispatch, redirect) {
   const credentials = { email, password };
 
-  dispatch.request({ type: LOGIN_REQUEST });
+  dispatch({ type: LOGIN_REQUEST });
   try {
     const successfulLogin = await axiosWithAuth(baseURL).post('api/login', credentials);
-    dispatch.success({ type: LOGIN_SUCCESS, payload: successfulLogin });
+    dispatch({ type: LOGIN_SUCCESS, payload: successfulLogin });
     // localStorage.setItem('token', successfulLogin.token);
     // localStorage.setItem('user', JSON.stringify(successfulLogin.userData));
     redirect && redirect();
   } catch (error) {
-    dispatch.failure({ type: LOGIN_FAILURE, payload: error });
+    dispatch({ type: LOGIN_FAILURE, payload: error });
   }
 }
 
