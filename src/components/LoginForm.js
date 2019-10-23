@@ -54,7 +54,7 @@ export function LoginForm() {
 
     dispatch(
       authActionCreators.loginUser({ email: 'business@lambdaschool.local', password: 'password' }, () =>
-        history.push('/volunteer')
+        history.push('/')
       )
     );
     setValues({
