@@ -6,6 +6,8 @@ import { Navbar } from '../components';
 
 export function AppRoutes() {
   const { user } = useSelector(state => state.authentication);
+  // test user.role
+  user.role = 'volunteer';
   return (
     <>
       <Navbar />

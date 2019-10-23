@@ -4,12 +4,20 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
+import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    // background: 'aliceblue'
+  },
+  card: {
+    // background: '#23293B',
+    color: '#23293B'
+  },
   fab: {
     margin: theme.spacing(1),
   },
@@ -22,15 +30,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function BusinessDashboard() {
+export function VolunteerDashboard() {
   const classes = useStyles();
-
-  const [location, setLocation] = useState({
-    address: '123 Abc Ave.',
-    city: 'Wallaby',
-    state: 'CA',
-    zip: '90001',
-  });
 
   const [pickups, setPickups] = useState([
     {
@@ -59,49 +60,46 @@ export function BusinessDashboard() {
     },
   ]);
 
-  useEffect(() => {
-    // for fetching data later
-  }, []);
-
   return (
     <Container>
-      <h1>Business Dashboard</h1>
+      <h1>Volunteer Dashboard</h1>
 
       <Box>
-        <Paper>
-          <h4>Office Location</h4>
-          <p>Street: {location.address}</p>
-          <p>City: {location.city}</p>
-          <p>State: {location.state}</p>
-          <p>Zip: {location.zip}</p>
-        </Paper>
-      </Box>
-
-      <Box>
-        <Paper>
-          <h4>Schedule Pickup</h4>
-          <Box>
-            <Box className={classes.makeDonationBox}>
-              <p>Make a Donation</p>
-              <Fab color='primary' size='small' aria-label='add' className={classes.fab}>
-                <AddIcon />
-              </Fab>
-            </Box>
-            <h4>Scheduled Pickups</h4>
-            <Box className={classes.makeDonationBox}>
-              {pickups.map(pickup => (
-                <Card key={pickup.id}>
+        <Paper className={classes.paper}>
+          <h4>My Pickups</h4>
+          <Grid container justify="left" spacing='2'>
+            {pickups.map(pickup => (
+              <Grid item key={pickup.id}>
+                <Card className={classes.card}>
                   <CardContent>
                     <h2>{pickup.foodType}</h2>
                     <p>{pickup.qty}</p>
                     <p>{pickup.date}</p>
                   </CardContent>
                 </Card>
-              ))}
-            </Box>
-          </Box>
+              </Grid>
+            ))}
+          </Grid>
         </Paper>
       </Box>
+
+      <Grid container justify='center' spacing='4'>
+        <Grid item>
+          <Box>
+            <Paper className={classes.paper}>
+              <h4>All Requests</h4>
+            </Paper>
+          </Box>
+        </Grid>
+        
+        <Grid item>
+          <Box>
+            <Paper className={classes.paper}>
+              <h4>Local Businesses</h4>
+            </Paper>
+          </Box>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
