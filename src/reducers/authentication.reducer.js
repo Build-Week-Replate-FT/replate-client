@@ -8,15 +8,14 @@ const {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
+  LOGOUT,
 } = authActionTypes;
 
-let user = getUser() || {};
-console.log(user);
 const initialState = {
   isPending: false,
   isSettled: false,
   error: null,
-  user,
+  user: getUser() || {},
 };
 
 export function authentication(state = initialState, action) {
@@ -69,6 +68,11 @@ export function authentication(state = initialState, action) {
         isPending: false,
         isSettled: true,
         error: action.payload,
+      };
+    case LOGOUT:
+      console.log(LOGOUT);
+      return {
+        ...initialState,
       };
     default:
       return state;

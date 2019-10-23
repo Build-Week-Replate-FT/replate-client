@@ -53,9 +53,7 @@ export function LoginForm() {
     event.preventDefault();
 
     dispatch(
-      authActionCreators.loginUser({ email: 'business@lambdaschool.local', password: 'password' }, () =>
-        history.push('/')
-      )
+      authActionCreators.loginUser({ email: 'lucy@lambdaschool.local', password: '1234567' }, () => history.push('/'))
     );
     setValues({
       email: '',
