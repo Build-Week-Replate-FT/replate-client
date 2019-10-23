@@ -3,11 +3,20 @@ import qs from 'qs';
 
 import { baseURL } from './config.api';
 
-const handleUserResponse = userResponse => {
-  console.log(userResponse);
-  // localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', userResponse.data.access_token);
-  return userResponse;
+const handleUserResponse = (token, userInfo) => {
+  console.log('handleUserResponse data: ', userInfo);
+  console.log('handleUserResponse token: ', token);
+  localStorage.setItem('user', JSON.stringify(userInfo.data));
+  localStorage.setItem('token', token);
+  return userInfo.data;
+};
+
+const getUserInfo = async userResponse => {
+  // console.log('get user info', userResponse);
+  const token = userResponse.data.access_token;
+  return await axiosWithAuth(baseURL, token)
+    .get(`users/mine`)
+    .then(userInfo => handleUserResponse(token, userInfo));
 };
 
 const register = async user => {
@@ -24,7 +33,7 @@ const login = async credentials => {
   });
   return await axiosWithAuth(baseURL)
     .post('login', loginQueryString)
-    .then(handleUserResponse);
+    .then(getUserInfo);
 };
 
 const logout = () => {
