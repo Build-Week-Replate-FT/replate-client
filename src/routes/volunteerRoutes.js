@@ -1,11 +1,10 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { SecondaryPage } from "../components";
+import React from 'react';
+import { Route } from 'react-router-dom';
 
 export default function VolunteerRoutes() {
   return (
     <>
-      <Route path="/volunteer" component={SecondaryPage} />
+      <Route path='/volunteer' render={() => <div>volunteer dashboard</div>} />
     </>
   );
 }
