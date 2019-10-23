@@ -4,15 +4,12 @@ import qs from 'qs';
 import { baseURL } from './config.api';
 
 const handleUserResponse = (token, userInfo) => {
-  console.log('handleUserResponse data: ', userInfo);
-  console.log('handleUserResponse token: ', token);
   localStorage.setItem('user', JSON.stringify(userInfo.data));
   localStorage.setItem('token', token);
   return userInfo.data;
 };
 
 const getUserInfo = async userResponse => {
-  // console.log('get user info', userResponse);
   const token = userResponse.data.access_token;
   return await axiosWithAuth(baseURL, token)
     .get(`users/mine`)
