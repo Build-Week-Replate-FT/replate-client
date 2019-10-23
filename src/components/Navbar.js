@@ -13,7 +13,7 @@ const StyledNavWrapper = styled.div`
 
 export const Navbar = props => {
   const { user } = useSelector(state => state.authentication);
-  const NavLink = user.role ? <Link to='/profile'>Profile</Link> : <Link to='/login'>Login</Link>;
+  const NavLink = user.userType ? <Link to='/profile'>Profile</Link> : <Link to='/login'>Login</Link>;
   return (
     <StyledNavWrapper>
       <h1>

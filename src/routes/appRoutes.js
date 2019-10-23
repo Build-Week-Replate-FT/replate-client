@@ -9,7 +9,7 @@ export function AppRoutes() {
   return (
     <>
       <Navbar />
-      {user.role ? <AuthenticatedRoutes /> : <PublicRoutes />}
+      {user.userType ? <AuthenticatedRoutes /> : <PublicRoutes />}
     </>
   );
 }
