@@ -88,7 +88,7 @@ export function VolunteerDashboard() {
       
       <Box>
         <Paper>
-          <Grid container spacing='4'>
+          <Grid container spacing={4}>
             <Grid item xs={6}>
               <Box>
                 <Paper className={classes.paper}>

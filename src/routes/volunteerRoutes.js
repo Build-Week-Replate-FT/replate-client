@@ -5,7 +5,7 @@ import { VolunteerDashboard } from '../components';
 export default function VolunteerRoutes() {
   return (
     <>
-      <Route path='/volunteer' render={() => <VolunteerDashboard /> } />
+      <Route path='/' render={() => <VolunteerDashboard /> } />
     </>
   );
 }
