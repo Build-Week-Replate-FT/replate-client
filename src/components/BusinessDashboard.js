@@ -1,62 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Paper from "@material-ui/core/Paper";
-import Box from "@material-ui/core/Box";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles(theme => ({
   fab: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   extendedIcon: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
   },
   makeDonationBox: {
-    display: "flex",
-    alignItems: "center"
-  }
+    display: 'flex',
+    alignItems: 'center',
+  },
 }));
 
 export function BusinessDashboard() {
   const classes = useStyles();
 
   const [location, setLocation] = useState({
-    address: "123 Abc Ave.",
-    city: "Wallaby",
-    state: "CA",
-    zip: "90001"
+    address: '123 Abc Ave.',
+    city: 'Wallaby',
+    state: 'CA',
+    zip: '90001',
   });
 
   const [pickups, setPickups] = useState([
     {
       id: 1,
-      foodType: "Nachos",
+      foodType: 'Nachos',
       qty: 20,
-      date: "10/23/2019"
+      date: '10/23/2019',
     },
     {
       id: 2,
-      foodType: "Tacos",
+      foodType: 'Tacos',
       qty: 25,
-      date: "10/27/2019"
+      date: '10/27/2019',
     },
     {
       id: 3,
-      foodType: "Burritos",
+      foodType: 'Burritos',
       qty: 15,
-      date: "11/03/2019"
+      date: '11/03/2019',
     },
     {
       id: 4,
-      foodType: "Lemonade",
+      foodType: 'Lemonade',
       qty: 42,
-      date: "11/15/2019"
-    }
+      date: '11/15/2019',
+    },
   ]);
 
   useEffect(() => {
@@ -83,12 +83,7 @@ export function BusinessDashboard() {
           <Box>
             <Box className={classes.makeDonationBox}>
               <p>Make a Donation</p>
-              <Fab
-                color="primary"
-                size="small"
-                aria-label="add"
-                className={classes.fab}
-              >
+              <Fab color='primary' size='small' aria-label='add' className={classes.fab}>
                 <AddIcon />
               </Fab>
             </Box>
