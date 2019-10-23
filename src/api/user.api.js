@@ -1,12 +1,17 @@
 import { axiosWithAuth } from '../utils';
+import qs from 'qs';
 
 import { baseURL } from './config.api';
 
-const handleUserResponse = (user, token) => {
-  console.log(user, token);
-  localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', token);
-  return user;
+const handleUserResponse = userResponse => {
+  console.log(userResponse);
+  // localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', userResponse.data.access_token);
+  axiosWithAuth(baseURL)
+    .get('users/getuserinfo')
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
+  return userResponse;
 };
 
 const register = async user => {
@@ -16,8 +21,13 @@ const register = async user => {
 };
 
 const login = async credentials => {
+  const loginQueryString = qs.stringify({
+    grant_type: 'password',
+    username: credentials.email,
+    password: credentials.password,
+  });
   return await axiosWithAuth(baseURL)
-    .post('api/login', credentials)
+    .post('login', loginQueryString)
     .then(handleUserResponse);
 };
 
