@@ -7,10 +7,6 @@ const handleUserResponse = userResponse => {
   console.log(userResponse);
   // localStorage.setItem('user', JSON.stringify(user));
   localStorage.setItem('token', userResponse.data.access_token);
-  axiosWithAuth(baseURL)
-    .get('users/getuserinfo')
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
   return userResponse;
 };
 
@@ -37,11 +33,11 @@ const logout = () => {
 };
 
 const getUser = () => {
-  JSON.parse(localStorage.getItem('user'));
+  return JSON.parse(localStorage.getItem('user'));
 };
 
 const getToken = () => {
-  JSON.parse(localStorage.getItem('user'));
+  return localStorage.getItem('token');
 };
 
 export { register, login, logout, getUser, getToken };
