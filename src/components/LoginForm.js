@@ -42,12 +42,17 @@ export function LoginForm({ history }) {
   };
 
   const handleSubmit = event => {
+    // volunteer
     // lucy@lambdaschool.local
     // password: 1234567
+
+    // business
+    // business@lambdaschool.local
+    // password
     event.preventDefault();
 
     dispatch(
-      authActionCreators.loginUser({ email: 'lucy@lambdaschool.local', password: '1234567' }, () =>
+      authActionCreators.loginUser({ email: 'business@lambdaschool.local', password: 'password' }, () =>
         history.push('/volunteer')
       )
     );
