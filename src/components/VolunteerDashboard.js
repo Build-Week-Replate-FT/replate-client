@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 export function VolunteerDashboard() {
   const classes = useStyles();
 
-  const [pickups, setPickups] = useState([
+  const [ pickups, setPickups ] = useState([
     {
       id: 1,
       foodType: 'Nachos',
@@ -60,6 +60,9 @@ export function VolunteerDashboard() {
     },
   ]);
 
+  const [ requests, setRequests ] = useState([0,1,2,3,4,5,6]);
+  const [ businesses, setBusinesses ] = useState([0,1,2,3,4]);
+
   return (
     <Container>
       <h1>Volunteer Dashboard</h1>
@@ -82,24 +85,34 @@ export function VolunteerDashboard() {
           </Grid>
         </Paper>
       </Box>
-
-      <Grid container justify='center' spacing='4'>
-        <Grid item>
-          <Box>
-            <Paper className={classes.paper}>
-              <h4>All Requests</h4>
-            </Paper>
-          </Box>
-        </Grid>
-        
-        <Grid item>
-          <Box>
-            <Paper className={classes.paper}>
-              <h4>Local Businesses</h4>
-            </Paper>
-          </Box>
-        </Grid>
-      </Grid>
+      
+      <Box>
+        <Paper>
+          <Grid container spacing='4'>
+            <Grid item xs={6}>
+              <Box>
+                <Paper className={classes.paper}>
+                  <h4>All Requests</h4>
+                  {requests.map(request => (
+                    <div key={request.id}>This will be a pickup request</div>
+                  ))}
+                </Paper>
+              </Box>
+            </Grid>
+            
+            <Grid item xs={6}>
+              <Box>
+                <Paper className={classes.paper}>
+                  <h4>Local Businesses</h4>
+                  {businesses.map(business => (
+                    <div key={business.id}>This will be a pickup request</div>
+                  ))}
+                </Paper>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Box>
     </Container>
   );
 }
