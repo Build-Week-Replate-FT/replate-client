@@ -13,7 +13,7 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <Router>
     <Provider store={store}>
-      <div>Hello World</div>
+      <AppRoutes />
     </Provider>
   </Router>,
   document.getElementById('root')
