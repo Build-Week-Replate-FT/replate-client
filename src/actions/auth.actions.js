@@ -45,10 +45,10 @@ const loginUser = ({ email, password }, redirect) => async dispatch => {
     .then(loginResponse => {
       console.log(loginResponse);
       dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
-      redirect && redirect();
+      // redirect && redirect();
     })
     .catch(error => {
-      console.log(error);
+      console.dir(error);
       dispatch({ type: LOGIN_FAILURE, payload: error });
     });
 };
