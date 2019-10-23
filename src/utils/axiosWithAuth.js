@@ -7,7 +7,6 @@ export function axiosWithAuth(baseURL, token) {
     : getToken()
     ? `Bearer ${getToken()}`
     : `Basic ${btoa('lambda-client:lambda-secret')}`;
-  console.log('axiosWithAuth', token);
   const client = axios.create({
     baseURL,
     headers: {
