@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authActionCreators } from '../actions';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -27,10 +28,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function LoginForm({ history }) {
+export function LoginForm() {
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const authentication = useSelector(state => state.authentication);
 
   const [values, setValues] = useState({
     email: '',

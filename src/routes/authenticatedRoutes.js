@@ -7,7 +7,7 @@ const BusinessRoutes = React.lazy(() => import('./businessRoutes'));
 
 export function AuthenticatedRoutes() {
   const { user } = useSelector(state => state.authentication);
-  const AuthenticatedRoutes = user.role === 'volunteer' ? VolunteerRoutes : BusinessRoutes;
+  const AuthenticatedRoutes = user.userType === 'volunteer' ? VolunteerRoutes : BusinessRoutes;
 
   return (
     <>
