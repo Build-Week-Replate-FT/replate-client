@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export function SecondaryPage() {
-	return (
-		<section>
-			<h2>Landing Page</h2>
-		</section>
-	);
+  return (
+    <section>
+      <h2>Secondary Page</h2>
+    </section>
+  );
 }

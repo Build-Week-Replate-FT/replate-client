@@ -27,13 +27,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export function VolunteerSignUp({ history }) {
+export function LoginForm({ history }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const authentication = useSelector(state => state.authentication);
 
   const [ values, setValues ] = useState({
-    name: '',
     email: '',
     password:  ''
   });
@@ -55,17 +54,8 @@ export function VolunteerSignUp({ history }) {
 
   return (
     <Container className={classes.test}>
-        <h1>Volunteer Sign Up</h1>
+        <h1>Log In</h1>
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete="off">
-          <TextField
-            label="Name"
-            className={classes.textField}
-            value={values.name}
-            onChange={handleChange('name')}
-            margin="normal"
-            variant="outlined"
-          />
-
           <TextField
             type='email'
             label="Email"
@@ -87,7 +77,7 @@ export function VolunteerSignUp({ history }) {
           />
 
           <Button type='submit' variant="contained" color="primary" className={classes.button}>
-            Sign Up
+            Log In
           </Button>
         </form>
     </Container>
