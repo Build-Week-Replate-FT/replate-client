@@ -5,6 +5,9 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -29,6 +32,33 @@ export function BusinessDashboard() {
     zip: '90001'
   });
 
+  const [ pickups, setPickups ] =useState([
+    {
+      id: 1,
+      foodType: 'Nachos',
+      qty: 20,
+      date: '10/23/2019'
+    },
+    {
+      id: 2,
+      foodType: 'Tacos',
+      qty: 25,
+      date: '10/27/2019'
+    },
+    {
+      id: 3,
+      foodType: 'Burritos',
+      qty: 15,
+      date: '11/03/2019'
+    },
+    {
+      id: 4,
+      foodType: 'Lemonade',
+      qty: 42,
+      date: '11/15/2019'
+    }
+  ]);
+
   useEffect(() => {
     // for fetching data later
   }, []);
@@ -49,12 +79,26 @@ export function BusinessDashboard() {
 
       <Box>
         <Paper>
-          <h4>Pick Up Schedule</h4>
-          <Box className={classes.makeDonationBox}>
-            <p>Make a Donation</p>
-            <Fab color="primary" size='small' aria-label="add" className={classes.fab}>
-              <AddIcon />
-            </Fab>
+          <h4>Schedule Pickup</h4>
+          <Box>
+            <Box className={classes.makeDonationBox}>
+              <p>Make a Donation</p>
+              <Fab color="primary" size='small' aria-label="add" className={classes.fab}>
+                <AddIcon />
+              </Fab>
+            </Box>
+            <h4>Scheduled Pickups</h4>
+            <Box className={classes.makeDonationBox}>
+              {pickups.map( pickup => (
+                <Card key={pickup.id}>
+                  <CardContent>
+                    <h2>{pickup.foodType}</h2>
+                    <p>{pickup.qty}</p>
+                    <p>{pickup.date}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </Box>
           </Box>
         </Paper>
       </Box>
