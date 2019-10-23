@@ -41,6 +41,7 @@ const registerUser = (
 
 const loginUser = ({ email, password }, redirect) => async dispatch => {
   dispatch({ type: LOGIN_REQUEST });
+  console.log(email, password);
   login({ email, password })
     .then(loginResponse => {
       console.log(loginResponse);
