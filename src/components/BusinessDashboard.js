@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
+import { SchedulePickupForm } from './SchedulePickupForm';
 import { axiosWithAuth } from '../utils';
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +31,8 @@ export function BusinessDashboard() {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
-  const [pickups, setPickups] = useState([]);
+  const [ pickups, setPickups ] = useState([]);
+  const [ scheduling, setScheduling ] = useState(false);
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -41,11 +43,16 @@ export function BusinessDashboard() {
       })
       .catch(err => console.log(err));
   }, []);
-  
+
+  const schedulePickup = () => {
+    console.log('setting scheduling to: ', !scheduling);
+    setScheduling(!scheduling);
+  }
+
   return (
     <Container>
       <h1>Business Dashboard</h1>
-
+      {scheduling && <SchedulePickupForm scheduling={scheduling} setScheduling={setScheduling}/>}
       <Box>
         <Paper>
           <h4>Office Location</h4>
@@ -56,11 +63,10 @@ export function BusinessDashboard() {
 
       <Box>
         <Paper>
-          <h4>Schedule Pickup</h4>
           <Box>
             <Box className={classes.makeDonationBox}>
-              <p>Make a Donation</p>
-              <Fab color='primary' size='small' aria-label='add' className={classes.fab}>
+              <h2>Request a Pickup</h2>
+              <Fab disabled={scheduling} onClick={schedulePickup} color='primary' size='small' aria-label='add' className={classes.fab}>
                 <AddIcon />
               </Fab>
             </Box>
