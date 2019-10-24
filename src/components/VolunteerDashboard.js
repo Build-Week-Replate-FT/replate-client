@@ -70,7 +70,7 @@ function BusinessCard({ data }) {
   );
 }
 
-function PickupCard({ data }) {
+function PickupCard({ data, interaction }) {
   const classes = useStyles();
 
   return (
@@ -96,12 +96,22 @@ export function VolunteerDashboard() {
 
   const [ businesses, setBusinesses ] = useState([]);
   const [ filteredBusinesses, setFilteredBusinesses ] = useState([]);
+  const [ querying, setQuerying ] = useState(false);
   
   const renderPickups = filter
                           ? filteredPickups.length
                             ? filteredPickups
                             : []
                           : pickups;
+
+  const renderBusinesses = querying
+                          ? filteredBusinesses.length
+                            ? filteredBusinesses
+                            : []
+                          : businesses;
+  
+  console.log(renderBusinesses)
+                
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -131,6 +141,22 @@ export function VolunteerDashboard() {
     const filteredList = pickups.filter(pickup => new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString());
     setFilteredPickups(filteredList);
   } 
+
+  const searchBusinesses = event => {
+    const query = event.target.value;
+    query.length ? setQuerying(true) : setQuerying(false);
+    const filteredBusinesses = businesses.filter(business => (
+      business.name.toLowerCase().includes(query.toLowerCase()) ||
+      business.email.toLowerCase().includes(query.toLowerCase()) ||
+      business.address.toLowerCase().includes(query.toLowerCase()) ||
+      business.city.toLowerCase().includes(query.toLowerCase()) ||
+      business.state.toLowerCase().includes(query.toLowerCase()) ||
+      business.zip.toLowerCase().includes(query.toLowerCase())
+      ));
+      
+    console.log(filteredBusinesses)
+    setFilteredBusinesses(filteredBusinesses);
+  }
 
   return (
     <Container className={classes.wrapper}>
@@ -183,11 +209,12 @@ export function VolunteerDashboard() {
                 <h2>Local Businesses</h2>
                 <TextField
                   label="Search"
+                  onChange={searchBusinesses}
                   className={classes.textField}
                 />
               </div>
               <StyledGrid>
-                {businesses.map(business => (
+                {renderBusinesses.map(business => (
                   <BusinessCard key={business.userid} data={business}/>
                 ))}
               </StyledGrid>
