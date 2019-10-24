@@ -43,18 +43,7 @@ export function BusinessDashboard() {
 
   const { user } = useSelector(state => state.authentication);
   const dispatch = useDispatch();
-  const [pickups, setPickups] = useState([]);
   const [scheduling, setScheduling] = useState(false);
-
-  useEffect(() => {
-    axiosWithAuth('https://replate-server.herokuapp.com/')
-      .get('pickups/pickups')
-      .then(({ data }) => {
-        console.log('pickup data:', data);
-        setPickups(data);
-      })
-      .catch(err => console.log(err));
-  }, []);
 
   const schedulePickup = () => {
     console.log('setting scheduling to: ', !scheduling);
@@ -105,7 +94,7 @@ export function BusinessDashboard() {
               </Box>
               <h4>Scheduled Pickups</h4>
               <Grid container spacing={2}>
-                {pickups.map(pickup => (
+                {user.business.businesspickups.map(pickup => (
                   <Grid item key={pickup.pickupid}>
                     <Card>
                       <CardContent>
