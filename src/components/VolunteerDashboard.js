@@ -76,6 +76,9 @@ export function VolunteerDashboard() {
                       <CardContent>
                         <h2>{pickup.foodtype}</h2>
                         <p>{pickup.quantity} {pickup.quantityunit}</p>
+                        <p>{pickup.deliveryaddress}</p>
+                        <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
+                        <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
                       </CardContent>
                     </Card>
                 </Grid>
@@ -96,9 +99,9 @@ export function VolunteerDashboard() {
                       <Card className={classes.card}>
                         <CardContent>
                           <h2>{pickup.foodtype}</h2>
+                          <p>{pickup.quantity} {pickup.quantityunit}</p>
                           <p>{pickup.deliveryaddress}</p>
                           <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
-                          <p>{pickup.quantity} {pickup.quantityunit}</p>
                           <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
                         </CardContent>
                       </Card>
