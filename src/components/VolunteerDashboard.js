@@ -7,10 +7,13 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CardActions from '@material-ui/core/CardActions';
+import styled from 'styled-components';
 
 import { axiosWithAuth } from '../utils';
 
@@ -19,6 +22,12 @@ const useStyles = makeStyles(theme => ({
     display: 'grid',
     gridTemplateRows: '1fr 1fr',
     gridGap: '20px'
+  },
+  pickupsTitleWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px'
   },
   topSection: {
     backgroundColor: 'aliceblue',
@@ -46,7 +55,7 @@ const StyledGrid = styled.div`
   grid-gap: 10px;
 `
 
-function InfoCard({ data }) {
+function BusinessCard({ data }) {
   const classes = useStyles();
   
   return (
@@ -61,14 +70,38 @@ function InfoCard({ data }) {
   );
 }
 
+function PickupCard({ data }) {
+  const classes = useStyles();
+
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <h2>{data.foodtype}</h2>
+        <p>{data.quantity} {data.quantityunit}</p>
+        <p>{data.deliveryaddress}</p>
+        <p>{data.deliverycity}, {data.deliverystate} {data.zip}</p>
+        <p>Pickup Time: {new Date(data.postdate).toDateString()}</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function VolunteerDashboard() {
   const classes = useStyles();
   const { user } = useSelector(state => state.authentication);
-  console.log(user);
-  
+
   const [ pickups, setPickups ] = useState([]);
+  const [ filter, setFilter ] = useState(false);
+  const [ filteredPickups, setFilteredPickups ] = useState([]);
+
   const [ businesses, setBusinesses ] = useState([]);
+  const [ filteredBusinesses, setFilteredBusinesses ] = useState([]);
   
+  const renderPickups = filter
+                          ? filteredPickups.length
+                            ? filteredPickups
+                            : []
+                          : pickups;
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -89,6 +122,16 @@ export function VolunteerDashboard() {
     }) 
   }, []);
 
+  useEffect(() => {
+    console.log(filter);
+    filter ? filterCurrentRequests() : setFilteredPickups([]);
+  }, [filter])
+
+  const filterCurrentRequests = () => {
+    const filteredList = pickups.filter(pickup => new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString());
+    setFilteredPickups(filteredList);
+  } 
+
   return (
     <Container className={classes.wrapper}>
 
@@ -100,15 +143,7 @@ export function VolunteerDashboard() {
             {pickups.map(pickup => (
               pickup.volunteer && pickup.volunteer.userid === user.userid && 
                 <Grid item key={pickup.pickupid}>
-                    <Card className={classes.card}>
-                      <CardContent>
-                        <h2>{pickup.foodtype}</h2>
-                        <p>{pickup.quantity} {pickup.quantityunit}</p>
-                        <p>{pickup.deliveryaddress}</p>
-                        <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
-                        <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
-                      </CardContent>
-                    </Card>
+                  <PickupCard data={pickup}/>
                 </Grid>
             ))}
           </Grid>
@@ -119,19 +154,24 @@ export function VolunteerDashboard() {
         <Grid container spacing={4}>
           <Grid item xs={6}>
             <Paper className={classes.bottomSection}>
-              <h2>All Requests</h2>
+              <div className={classes.pickupsTitleWrapper}>
+                <h2>Requested Pickups</h2>
+                <div>
+                  <span>Filter Today's Requests</span>
+                  <Checkbox
+                    color='primary'
+                    onChange={() => setFilter(!filter)}
+                    inputProps={{
+                      'aria-label': 'uncontrolled-checkbox',
+                    }}
+                  />
+                </div>
+              </div>
               <StyledGrid container spacing={2}>
-                {pickups.map(pickup => (
+                {
+                  renderPickups.map(pickup => (
                   !pickup.volunteer && 
-                  <Card key={pickup.pickupid} className={classes.card}>
-                    <CardContent>
-                      <h2>{pickup.foodtype}</h2>
-                      <p>{pickup.quantity} {pickup.quantityunit}</p>
-                      <p>{pickup.deliveryaddress}</p>
-                      <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
-                      <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
-                    </CardContent>
-                  </Card>
+                  <PickupCard key={pickup.pickupid} data={pickup}/>
                 ))}
               </StyledGrid>
             </Paper>
@@ -139,10 +179,16 @@ export function VolunteerDashboard() {
           
           <Grid item xs={6}>
             <Paper className={classes.bottomSection}>
-              <h2>Local Businesses</h2>
+              <div className={classes.pickupsTitleWrapper}>
+                <h2>Local Businesses</h2>
+                <TextField
+                  label="Search"
+                  className={classes.textField}
+                />
+              </div>
               <StyledGrid>
                 {businesses.map(business => (
-                  <InfoCard key={business.userid} data={business}/>
+                  <BusinessCard key={business.userid} data={business}/>
                 ))}
               </StyledGrid>
             </Paper>
