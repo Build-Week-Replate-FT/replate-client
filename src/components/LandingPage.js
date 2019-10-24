@@ -67,7 +67,7 @@ export function LandingPage() {
   }
 
   useEffect(() => {
-    if (location.pathname !== '/') setDrawerOpen(true);
+    location.pathname !== '/' ? setDrawerOpen(true) : setDrawerOpen(false);
   }, [location.pathname]);
 
   const toggleDrawer = () => {
