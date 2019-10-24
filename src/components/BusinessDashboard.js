@@ -28,21 +28,21 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     display: 'grid',
     gridTemplateRows: 'repeat(2, 50%)',
-    gridGap: '10px'
+    gridGap: '10px',
   },
   paper: {
     padding: '10px',
     width: '100%',
-    backgroundColor: 'aliceblue'
-  }
+    backgroundColor: 'aliceblue',
+  },
 }));
 
 export function BusinessDashboard() {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
-  const [ pickups, setPickups ] = useState([]);
-  const [ scheduling, setScheduling ] = useState(false);
+  const [pickups, setPickups] = useState([]);
+  const [scheduling, setScheduling] = useState(false);
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -57,18 +57,20 @@ export function BusinessDashboard() {
   const schedulePickup = () => {
     console.log('setting scheduling to: ', !scheduling);
     setScheduling(!scheduling);
-  }
+  };
 
   return (
     <>
       <Container className={classes.wrapper}>
-        {scheduling && <SchedulePickupForm scheduling={scheduling} setScheduling={setScheduling}/>}
+        {scheduling && <SchedulePickupForm scheduling={scheduling} setScheduling={setScheduling} user={user} />}
         <Box>
           <h1>Business Dashboard</h1>
           <Paper className={classes.paper}>
             <h2>Office Location</h2>
             <p>{user.address}</p>
-            <p>{user.city}, {user.state} {user.zip}</p>
+            <p>
+              {user.city}, {user.state} {user.zip}
+            </p>
           </Paper>
         </Box>
 
@@ -77,7 +79,13 @@ export function BusinessDashboard() {
             <Box>
               <Box className={classes.makeDonationBox}>
                 <h2>Request a Pickup</h2>
-                <Fab disabled={scheduling} onClick={schedulePickup} color='primary' size='small' aria-label='add' className={classes.fab}>
+                <Fab
+                  disabled={scheduling}
+                  onClick={schedulePickup}
+                  color='primary'
+                  size='small'
+                  aria-label='add'
+                  className={classes.fab}>
                   <AddIcon />
                 </Fab>
               </Box>
@@ -88,7 +96,9 @@ export function BusinessDashboard() {
                     <Card>
                       <CardContent>
                         <h2>{pickup.foodtype}</h2>
-                        <p>{pickup.quantity} {pickup.quantityunit}</p>
+                        <p>
+                          {pickup.quantity} {pickup.quantityunit}
+                        </p>
                         <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
                       </CardContent>
                     </Card>

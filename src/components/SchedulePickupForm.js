@@ -6,11 +6,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -34,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   test: {
     width: '600px',
     borderRadius: '5px',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   formWindow: {
     borderRadius: '5px',
@@ -43,22 +39,23 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100vw',
-  }
+  },
 }));
 
-export function SchedulePickupForm({ scheduling, setScheduling }) {
+export function SchedulePickupForm({ scheduling, setScheduling, user }) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
     foodType: '',
     qty: '',
-    unit: ''
+    unit: '',
   });
 
   const [selectedDate, setSelectedDate] = React.useState();
 
   const handleDateChange = date => {
     setSelectedDate(date);
+    console.log(date);
   };
 
   const handleChange = name => event => {
@@ -67,12 +64,25 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(values);
     const { foodType, qty, unit } = values;
+    const formData = {
+      foodtype: foodType,
+      quantity: qty,
+      quantityunit: unit,
+      deliveryaddress: user.address,
+      deliverycity: user.city,
+      deliverystate: user.state,
+      zip: user.zip,
+      business: {
+        userid: user.userid,
+      },
+    };
+    console.log(formData);
+    // make post request here
     setValues({
       foodType: '',
       qty: '',
-      unit: ''
+      unit: '',
     });
   };
 
@@ -80,7 +90,7 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
     <Container onClick={() => setScheduling(!scheduling)} className={classes.formWindow}>
       <Box onClick={event => event.stopPropagation()} className={classes.test}>
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete='off'>
-        <h1>Schedule Pickup</h1>
+          <h1>Schedule Pickup</h1>
           <TextField
             type='text'
             label='Food'
@@ -111,14 +121,14 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
             variant='outlined'
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justify="space-around">
+            <Grid container justify='space-around'>
               <KeyboardDatePicker
                 disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="date-picker-inline"
-                label="Date picker inline"
+                variant='inline'
+                format='MM/dd/yyyy'
+                margin='normal'
+                id='date-picker-inline'
+                label='Date picker inline'
                 value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
@@ -127,9 +137,9 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
               />
 
               <KeyboardTimePicker
-                margin="normal"
-                id="time-picker"
-                label="Time picker"
+                margin='normal'
+                id='time-picker'
+                label='Time picker'
                 value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
@@ -142,7 +152,7 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
             Schedule Pickup
           </Button>
         </form>
-      </Box >
+      </Box>
     </Container>
   );
 }
