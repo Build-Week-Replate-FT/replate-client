@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +11,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
+import { businessActionCreators } from '../actions';
 import { SchedulePickupForm } from './SchedulePickupForm';
 import { axiosWithAuth } from '../utils';
 
@@ -41,6 +42,7 @@ export function BusinessDashboard() {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
+  const dispatch = useDispatch();
   const [pickups, setPickups] = useState([]);
   const [scheduling, setScheduling] = useState(false);
 
@@ -59,10 +61,22 @@ export function BusinessDashboard() {
     setScheduling(!scheduling);
   };
 
+  const createPickup = pickup => {
+    console.log(pickup);
+    dispatch(businessActionCreators.createPickupAction(pickup));
+  };
+
   return (
     <>
       <Container className={classes.wrapper}>
-        {scheduling && <SchedulePickupForm scheduling={scheduling} setScheduling={setScheduling} user={user} />}
+        {scheduling && (
+          <SchedulePickupForm
+            scheduling={scheduling}
+            setScheduling={setScheduling}
+            user={user}
+            createPickup={createPickup}
+          />
+        )}
         <Box>
           <h1>Business Dashboard</h1>
           <Paper className={classes.paper}>
