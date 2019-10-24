@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+
+import { axiosWithAuth } from '../utils';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -32,36 +35,31 @@ const useStyles = makeStyles(theme => ({
 
 export function VolunteerDashboard() {
   const classes = useStyles();
+  const { user } = useSelector(state => state.authentication);
+  console.log(user);
+  
+  const [ pickups, setPickups ] = useState([]);
+  const [ businesses, setBusinesses ] = useState([]);
+  
 
-  const [ pickups, setPickups ] = useState([
-    {
-      id: 1,
-      foodType: 'Nachos',
-      qty: 20,
-      date: '10/23/2019',
-    },
-    {
-      id: 2,
-      foodType: 'Tacos',
-      qty: 25,
-      date: '10/27/2019',
-    },
-    {
-      id: 3,
-      foodType: 'Burritos',
-      qty: 15,
-      date: '11/03/2019',
-    },
-    {
-      id: 4,
-      foodType: 'Lemonade',
-      qty: 42,
-      date: '11/15/2019',
-    },
-  ]);
+  useEffect(() => {
+    axiosWithAuth('https://replate-server.herokuapp.com/')
+      .get('pickups/pickups')
+      .then(({ data }) => {
+        console.log('pickup data:', data);
+        setPickups(data);
+      })
+      .catch(err => console.log(err));
+  }, []);
 
-  const [ requests, setRequests ] = useState([0,1,2,3,4,5,6]);
-  const [ businesses, setBusinesses ] = useState([0,1,2,3,4]);
+  useEffect(() => {
+    axiosWithAuth('https://replate-server.herokuapp.com/')
+    .get('business/businesses')
+    .then(({ data }) => {
+      console.log('business data:', data);
+      setBusinesses(data);
+    }) 
+  }, []);
 
   return (
     <Container>
@@ -70,48 +68,63 @@ export function VolunteerDashboard() {
       <Box>
         <Paper className={classes.paper}>
           <h4>My Pickups</h4>
-          <Grid container justify="left" spacing='2'>
+          <Grid container justify="flex-start" spacing={2}>
             {pickups.map(pickup => (
-              <Grid item key={pickup.id}>
-                <Card className={classes.card}>
-                  <CardContent>
-                    <h2>{pickup.foodType}</h2>
-                    <p>{pickup.qty}</p>
-                    <p>{pickup.date}</p>
-                  </CardContent>
-                </Card>
-              </Grid>
+              pickup.volunteer && pickup.volunteer.userid === user.userid && 
+                <Grid item key={pickup.pickupid}>
+                    <Card className={classes.card}>
+                      <CardContent>
+                        <h2>{pickup.foodtype}</h2>
+                        <p>{pickup.quantity} {pickup.quantityunit}</p>
+                      </CardContent>
+                    </Card>
+                </Grid>
             ))}
           </Grid>
         </Paper>
       </Box>
       
       <Box>
-        <Paper>
           <Grid container spacing={4}>
             <Grid item xs={6}>
-              <Box>
-                <Paper className={classes.paper}>
-                  <h4>All Requests</h4>
-                  {requests.map(request => (
-                    <div key={request.id}>This will be a pickup request</div>
+              <Paper className={classes.paper}>
+                <h2>All Requests</h2>
+                <Grid container spacing={2}>
+                  {pickups.map(pickup => (
+                    !pickup.volunteer && 
+                    <Grid item key={pickup.pickupid}>
+                      <Card className={classes.card}>
+                        <CardContent>
+                          <h2>{pickup.foodtype}</h2>
+                          <p>{pickup.quantity} {pickup.quantityunit}</p>
+                        </CardContent>
+                      </Card>
+                    </Grid>
                   ))}
-                </Paper>
-              </Box>
+                </Grid>
+              </Paper>
             </Grid>
             
             <Grid item xs={6}>
-              <Box>
-                <Paper className={classes.paper}>
-                  <h4>Local Businesses</h4>
+              <Paper className={classes.paper}>
+                <h2>Local Businesses</h2>
+                <Grid container spacing={2}>
                   {businesses.map(business => (
-                    <div key={business.id}>This will be a pickup request</div>
+                    <Grid item key={business.userid}>
+                      <Card className={classes.card}>
+                        <CardContent>
+                          <h2>{business.name}</h2>
+                          <p>{business.email}</p>
+                          <p>{business.address}</p>
+                          <p>{business.city}, {business.state} {business.zip}</p>
+                        </CardContent>
+                      </Card>
+                    </Grid>
                   ))}
-                </Paper>
-              </Box>
+                </Grid>
+              </Paper>
             </Grid>
           </Grid>
-        </Paper>
       </Box>
     </Container>
   );
