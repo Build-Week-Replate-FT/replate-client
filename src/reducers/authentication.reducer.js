@@ -1,5 +1,5 @@
-import { authActionTypes } from '../actions';
-import { getUser } from '../api';
+import { authActionTypes } from "../actions";
+import { getUser } from "../api";
 
 const {
   LOGIN_REQUEST,
@@ -8,14 +8,14 @@ const {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
-  LOGOUT,
+  LOGOUT
 } = authActionTypes;
 
 const initialState = {
   isPending: false,
   isSettled: false,
   error: null,
-  user: getUser() || {},
+  user: getUser() || {}
 };
 
 export function authentication(state = initialState, action) {
@@ -26,7 +26,7 @@ export function authentication(state = initialState, action) {
         ...state,
         isPending: true,
         error: null,
-        isSettled: false,
+        isSettled: false
       };
     case LOGIN_SUCCESS:
       console.log(LOGIN_SUCCESS);
@@ -35,7 +35,7 @@ export function authentication(state = initialState, action) {
         isSettled: true,
         isPending: false,
         error: null,
-        user: action.payload,
+        user: action.payload
       };
     case LOGIN_FAILURE:
       console.log(LOGIN_FAILURE);
@@ -43,7 +43,7 @@ export function authentication(state = initialState, action) {
         ...state,
         isPending: false,
         isSettled: true,
-        error: action.payload,
+        error: action.payload
       };
     case REGISTER_REQUEST:
       console.log(REGISTER_REQUEST);
@@ -51,7 +51,7 @@ export function authentication(state = initialState, action) {
         ...state,
         isPending: true,
         error: null,
-        isSettled: false,
+        isSettled: false
       };
     case REGISTER_SUCCESS:
       console.log(REGISTER_SUCCESS);
@@ -59,7 +59,7 @@ export function authentication(state = initialState, action) {
         ...state,
         isSettled: true,
         isPending: false,
-        error: null,
+        error: null
       };
     case REGISTER_FAILURE:
       console.log(REGISTER_FAILURE);
@@ -67,12 +67,13 @@ export function authentication(state = initialState, action) {
         ...state,
         isPending: false,
         isSettled: true,
-        error: action.payload,
+        error: action.payload
       };
     case LOGOUT:
       console.log(LOGOUT);
       return {
         ...initialState,
+        user: {}
       };
     default:
       return state;
