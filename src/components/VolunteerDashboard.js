@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     display: 'grid',
     gridTemplateRows: '1fr 1fr',
-    gridGap: '20px'
+    gridGap: '10px'
   },
   pickupsTitleWrapper: {
     display: 'flex',
@@ -31,12 +31,14 @@ const useStyles = makeStyles(theme => ({
   },
   topSection: {
     backgroundColor: 'aliceblue',
+    minHeight: '500px',
+    marginTop: '20px',
     padding: '20px',
   },
   bottomSection: {
     backgroundColor: 'aliceblue',
     padding: '20px',
-    height: '100%'
+    minHeight: '500px'
   },
   card: {
     color: '#23293B'
@@ -162,7 +164,7 @@ export function VolunteerDashboard() {
     <Container className={classes.wrapper}>
 
       <Box>
-        <h1>Volunteer Dashboard</h1>
+        <h1>Welcome {user.name.split(' ')[0]}!</h1>
         <Paper className={classes.topSection}>
           <h2>My Pickups</h2>
           <Grid container justify="flex-start" spacing={2}>

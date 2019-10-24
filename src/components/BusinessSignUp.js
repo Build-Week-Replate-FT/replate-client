@@ -58,6 +58,8 @@ export function BusinessSignUp() {
 
   const [ errors, setErrors ] = useState({});
 
+  const [disableButton, setDisableButton] = useState(true);
+
   const handleBlur = () => {
     setErrors({...errors, [focused]: focused === 'password' ? checkPassword() : checkReqField()});
   }
@@ -74,13 +76,22 @@ export function BusinessSignUp() {
     if (!focused) {
       return;
     }
-    const error = values.password.length >= 6 ? false : 'Password must me at least 6 characters long';
+    const error = values.password.length >= 6 ? false : 'Password must be at least 6 characters long';
     return error; 
   }
 
   const handleChange = name => event => {
     const value = event.target.value ;
     setValues({ ...values,  [name]: value });
+    setErrors({...errors, [focused]: focused === 'password' ? checkPassword() : checkReqField()});
+    
+    if (Object.keys(errors).length) {
+      if (Object.values(errors).filter(error => error).length) {
+        setDisableButton(true);
+      } else {
+        setDisableButton(false);
+      }
+    }
   };
 
   const handleFocus = event => {
@@ -119,6 +130,7 @@ export function BusinessSignUp() {
       >
         <TextField
           label="Business Name"
+          type='text'
           name='name'
           className={classes.textField}
           value={values.name}
@@ -243,6 +255,7 @@ export function BusinessSignUp() {
           variant="contained"
           color="primary"
           className={classes.button}
+          disabled={disableButton}
         >
           Sign Up
         </Button>
