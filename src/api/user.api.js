@@ -1,11 +1,12 @@
-import { axiosWithAuth } from '../utils';
-import qs from 'qs';
+import { axiosWithAuth } from "../utils";
+import qs from "qs";
+import axios from "axios";
 
-import { baseURL } from './config.api';
+import { baseURL } from "./config.api";
 
 const handleUserResponse = (token, userInfo) => {
-  localStorage.setItem('user', JSON.stringify(userInfo.data));
-  localStorage.setItem('token', token);
+  localStorage.setItem("user", JSON.stringify(userInfo.data));
+  localStorage.setItem("token", token);
   return userInfo.data;
 };
 
@@ -16,34 +17,35 @@ const getUserInfo = async userResponse => {
     .then(userInfo => handleUserResponse(token, userInfo));
 };
 
-const register = async user => {
-  return await axiosWithAuth(baseURL)
-    .post('api/users', user)
-    .then(handleUserResponse);
-};
-
 const login = async credentials => {
   const loginQueryString = qs.stringify({
-    grant_type: 'password',
+    grant_type: "password",
     username: credentials.email,
-    password: credentials.password,
+    password: credentials.password
   });
   return await axiosWithAuth(baseURL)
-    .post('login', loginQueryString)
+    .post("login", loginQueryString)
     .then(getUserInfo);
 };
 
+const register = async (user, userType) => {
+  const { email, password } = user;
+  return await axios
+    .post(`${baseURL}createnewuser/${userType}`, user)
+    .then(() => login({ email, password }));
+};
+
 const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 };
 
 const getUser = () => {
-  return JSON.parse(localStorage.getItem('user'));
+  return JSON.parse(localStorage.getItem("user"));
 };
 
 const getToken = () => {
-  return localStorage.getItem('token');
+  return localStorage.getItem("token");
 };
 
 export { register, login, logout, getUser, getToken };
