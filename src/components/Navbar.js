@@ -33,7 +33,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     color: '#23293B',
-    fontFamily: 'inherit'
+    fontFamily: 'inherit',
+    textTransform: 'none',
+    fontSize: '1rem'
   }
 }));
 
