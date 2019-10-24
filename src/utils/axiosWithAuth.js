@@ -7,11 +7,13 @@ export function axiosWithAuth(baseURL, token) {
     : getToken()
     ? `Bearer ${getToken()}`
     : `Basic ${btoa('lambda-client:lambda-secret')}`;
+
+  const contentType = getToken() ? 'application/json' : 'application/x-www-form-urlencoded';
   const client = axios.create({
     baseURL,
     headers: {
       Authorization: token,
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': contentType,
     },
   });
   return client;
