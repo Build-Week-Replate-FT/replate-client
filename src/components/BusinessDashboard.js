@@ -42,6 +42,7 @@ export function BusinessDashboard() {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
+  const { pickups } = useSelector(state => state.business);
   const dispatch = useDispatch();
   const [scheduling, setScheduling] = useState(false);
 
@@ -53,6 +54,7 @@ export function BusinessDashboard() {
   const createPickup = pickup => {
     console.log(pickup);
     dispatch(businessActionCreators.createPickupAction(pickup));
+    setScheduling(false);
   };
 
   return (
@@ -94,7 +96,7 @@ export function BusinessDashboard() {
               </Box>
               <h4>Scheduled Pickups</h4>
               <Grid container spacing={2}>
-                {user.business.businesspickups.map(pickup => (
+                {pickups.pickupsList.map(pickup => (
                   <Grid item key={pickup.pickupid}>
                     <Card>
                       <CardContent>
