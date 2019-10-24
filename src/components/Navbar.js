@@ -20,8 +20,18 @@ const StyledNavWrapper = styled.div`
 `;
 
 const useStyles = makeStyles(theme => ({
+  bar: {
+    backgroundColor: 'aliceblue'
+  },
   title: {
     flexGrow: 1,
+  },
+  link: {
+    color: '#23293B',
+    textDecoration: 'none'
+  },
+  button: {
+    color: '#23293B'
   }
 }));
 
@@ -29,18 +39,20 @@ export const Navbar = () => {
   const { user } = useSelector(state => state.authentication);
   const dispatch = useDispatch();
   const history = useHistory();
-  const NavLink = user.userType ? <Link to='/profile'>Profile</Link> : <Link to='/login'>Login</Link>;
   const classes = useStyles();
+  const NavLink = user.userType ? <Link className={classes.link} to='/profile'>Profile</Link> : <Link className={classes.link} to='/login'>Login</Link>;
 
   const handleLogout = () => {
     dispatch(authActionCreators.logoutUser(() => history.push('/')));
   };
   return (
-    <AppBar position="static">
+    <AppBar className={classes.bar} position="static">
       <Toolbar>
-        <h1 className={classes.title}><Link to='/'>Replate</Link></h1>
+        <h1 className={classes.title}>
+          <Link className={classes.link} to='/'>Replate</Link>
+        </h1>
         {NavLink}
-        {user.userType && <Button color="inherit" onClick={handleLogout}>Logout</Button>}
+        {user.userType && <Button className={classes.button} color="inherit" onClick={handleLogout}>Logout</Button>}
       </Toolbar>
     </AppBar>
 
