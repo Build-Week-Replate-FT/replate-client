@@ -59,7 +59,8 @@ export function authentication(state = initialState, action) {
         ...state,
         isSettled: true,
         isPending: false,
-        error: null
+        error: null,
+        user: action.payload
       };
     case REGISTER_FAILURE:
       console.log(REGISTER_FAILURE);
