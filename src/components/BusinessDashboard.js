@@ -16,6 +16,13 @@ import { SchedulePickupForm } from './SchedulePickupForm';
 import { axiosWithAuth } from '../utils';
 
 const useStyles = makeStyles(theme => ({
+  title: {
+    margin: '50px 0',
+    fontSize: '4rem',
+  },
+  subTitle: {
+    marginBottom: '50px',
+  },
   fab: {
     margin: theme.spacing(1),
   },
@@ -23,6 +30,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
   makeDonationBox: {
+    marginTop: '25px',
     display: 'flex',
     alignItems: 'center',
   },
@@ -35,6 +43,7 @@ const useStyles = makeStyles(theme => ({
     padding: '10px',
     width: '100%',
     backgroundColor: 'aliceblue',
+    minHeight: '350px',
   },
 }));
 
@@ -69,32 +78,32 @@ export function BusinessDashboard() {
           />
         )}
         <Box>
-          <h1>Business Dashboard</h1>
+          <h1 className={classes.title}>Welcome {user.name}</h1>
           <Paper className={classes.paper}>
-            <h2>Office Location</h2>
+            <h2 className={classes.subTitle}>Office Location</h2>
             <p>{user.address}</p>
             <p>
               {user.city}, {user.state} {user.zip}
             </p>
+            <Box className={classes.makeDonationBox}>
+              <h3>Request a Pickup</h3>
+              <Fab
+                disabled={scheduling}
+                onClick={schedulePickup}
+                color='primary'
+                size='small'
+                aria-label='add'
+                className={classes.fab}>
+                <AddIcon />
+              </Fab>
+            </Box>
           </Paper>
         </Box>
 
         <Box>
           <Paper className={classes.paper}>
             <Box>
-              <Box className={classes.makeDonationBox}>
-                <h2>Request a Pickup</h2>
-                <Fab
-                  disabled={scheduling}
-                  onClick={schedulePickup}
-                  color='primary'
-                  size='small'
-                  aria-label='add'
-                  className={classes.fab}>
-                  <AddIcon />
-                </Fab>
-              </Box>
-              <h4>Scheduled Pickups</h4>
+              <h2 className={classes.subTitle}>Scheduled Pickups</h2>
               <Grid container spacing={2}>
                 {pickups.pickupsList.map(pickup => (
                   <Grid item key={pickup.pickupid}>
