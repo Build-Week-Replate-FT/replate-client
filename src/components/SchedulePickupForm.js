@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function SchedulePickupForm({ scheduling, setScheduling, user }) {
+export function SchedulePickupForm({ scheduling, setScheduling, user, createPickup }) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -67,7 +67,7 @@ export function SchedulePickupForm({ scheduling, setScheduling, user }) {
     const { foodType, qty, unit } = values;
     const formData = {
       foodtype: foodType,
-      quantity: qty,
+      quantity: Number(qty),
       quantityunit: unit,
       deliveryaddress: user.address,
       deliverycity: user.city,
@@ -77,8 +77,7 @@ export function SchedulePickupForm({ scheduling, setScheduling, user }) {
         userid: user.userid,
       },
     };
-    console.log(formData);
-    // make post request here
+    createPickup(formData);
     setValues({
       foodType: '',
       qty: '',
