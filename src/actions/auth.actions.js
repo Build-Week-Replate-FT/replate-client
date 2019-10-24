@@ -37,28 +37,24 @@ const registerUser = (
 
   register(user, userType)
     .then(registerUserResponse => {
-      console.log(registerUserResponse);
       dispatch({ type: REGISTER_SUCCESS, payload: registerUserResponse });
-      console.log("redirect the user");
       redirect && redirect();
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
       dispatch({ type: REGISTER_FAILURE, payload: error });
     });
 };
 
 const loginUser = ({ email, password }, redirect) => async dispatch => {
   dispatch({ type: LOGIN_REQUEST });
-  console.log(email, password);
   login({ email, password })
     .then(loginResponse => {
-      console.log(loginResponse);
       dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
       redirect && redirect();
     })
     .catch(error => {
-      console.dir(error);
+      console.error(error);
       dispatch({ type: LOGIN_FAILURE, payload: error });
     });
 };
