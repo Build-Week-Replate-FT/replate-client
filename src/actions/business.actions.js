@@ -12,7 +12,7 @@ const createPickupAction = pickup => async dispatch => {
   createPickup(pickup)
     .then(pickupResponse => {
       console.log(pickupResponse);
-      dispatch({ type: CREATE_PICKUP_SUCCESS, payload: pickupResponse.data });
+      dispatch({ type: CREATE_PICKUP_SUCCESS, payload: pickupResponse.data.business.businesspickups });
     })
     .catch(error => {
       console.log('failed create pickup', error);
