@@ -4,21 +4,32 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
-import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import styled from 'styled-components';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import CardActions from '@material-ui/core/CardActions';
 
 import { axiosWithAuth } from '../utils';
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    // background: 'aliceblue'
+  wrapper: {
+    display: 'grid',
+    gridTemplateRows: '1fr 1fr',
+    gridGap: '20px'
+  },
+  topSection: {
+    backgroundColor: 'aliceblue',
+    padding: '20px',
+  },
+  bottomSection: {
+    backgroundColor: 'aliceblue',
+    padding: '20px',
+    height: '100%'
   },
   card: {
-    // background: '#23293B',
     color: '#23293B'
   },
   fab: {
@@ -26,12 +37,29 @@ const useStyles = makeStyles(theme => ({
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
-  },
-  makeDonationBox: {
-    display: 'flex',
-    alignItems: 'center',
-  },
+  }
 }));
+
+const StyledGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  grid-gap: 10px;
+`
+
+function InfoCard({ data }) {
+  const classes = useStyles();
+  
+  return (
+    <Card key={data.userid} className={classes.card}>
+      <CardContent>
+        <h2>{data.name}</h2>
+        <p>{data.email}</p>
+        <p>{data.address}</p>
+        <p>{data.city}, {data.state} {data.zip}</p>
+      </CardContent>
+    </Card>
+  );
+}
 
 export function VolunteerDashboard() {
   const classes = useStyles();
@@ -62,12 +90,12 @@ export function VolunteerDashboard() {
   }, []);
 
   return (
-    <Container>
-      <h1>Volunteer Dashboard</h1>
+    <Container className={classes.wrapper}>
 
       <Box>
-        <Paper className={classes.paper}>
-          <h4>My Pickups</h4>
+        <h1>Volunteer Dashboard</h1>
+        <Paper className={classes.topSection}>
+          <h2>My Pickups</h2>
           <Grid container justify="flex-start" spacing={2}>
             {pickups.map(pickup => (
               pickup.volunteer && pickup.volunteer.userid === user.userid && 
@@ -88,49 +116,38 @@ export function VolunteerDashboard() {
       </Box>
       
       <Box>
-          <Grid container spacing={4}>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <h2>All Requests</h2>
-                <Grid container spacing={2}>
-                  {pickups.map(pickup => (
-                    !pickup.volunteer && 
-                    <Grid item key={pickup.pickupid}>
-                      <Card className={classes.card}>
-                        <CardContent>
-                          <h2>{pickup.foodtype}</h2>
-                          <p>{pickup.quantity} {pickup.quantityunit}</p>
-                          <p>{pickup.deliveryaddress}</p>
-                          <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
-                          <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Paper>
-            </Grid>
-            
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>
-                <h2>Local Businesses</h2>
-                <Grid container spacing={2}>
-                  {businesses.map(business => (
-                    <Grid item key={business.userid}>
-                      <Card className={classes.card}>
-                        <CardContent>
-                          <h2>{business.name}</h2>
-                          <p>{business.email}</p>
-                          <p>{business.address}</p>
-                          <p>{business.city}, {business.state} {business.zip}</p>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Paper>
-            </Grid>
+        <Grid container spacing={4}>
+          <Grid item xs={6}>
+            <Paper className={classes.bottomSection}>
+              <h2>All Requests</h2>
+              <StyledGrid container spacing={2}>
+                {pickups.map(pickup => (
+                  !pickup.volunteer && 
+                  <Card key={pickup.pickupid} className={classes.card}>
+                    <CardContent>
+                      <h2>{pickup.foodtype}</h2>
+                      <p>{pickup.quantity} {pickup.quantityunit}</p>
+                      <p>{pickup.deliveryaddress}</p>
+                      <p>{pickup.deliverycity}, {pickup.deliverystate} {pickup.zip}</p>
+                      <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </StyledGrid>
+            </Paper>
           </Grid>
+          
+          <Grid item xs={6}>
+            <Paper className={classes.bottomSection}>
+              <h2>Local Businesses</h2>
+              <StyledGrid>
+                {businesses.map(business => (
+                  <InfoCard key={business.userid} data={business}/>
+                ))}
+              </StyledGrid>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

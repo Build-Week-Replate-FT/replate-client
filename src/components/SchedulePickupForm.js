@@ -14,6 +14,9 @@ import {
 
 const useStyles = makeStyles(theme => ({
   container: {
+    padding: '10px',
+    boxShadow: '0 0 20px grey',
+    borderRadius: '5px',
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'column',
@@ -40,8 +43,6 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100vw',
-    height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   }
 }));
 
@@ -78,8 +79,8 @@ export function SchedulePickupForm({ scheduling, setScheduling }) {
   return (
     <Container onClick={() => setScheduling(!scheduling)} className={classes.formWindow}>
       <Box onClick={event => event.stopPropagation()} className={classes.test}>
-        <h1>Schedule Pickup</h1>
         <form className={classes.container} onSubmit={handleSubmit} noValidate autoComplete='off'>
+        <h1>Schedule Pickup</h1>
           <TextField
             type='text'
             label='Food'
