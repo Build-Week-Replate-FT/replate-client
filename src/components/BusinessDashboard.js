@@ -9,6 +9,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 
 import { axiosWithAuth } from '../utils';
 
@@ -64,16 +65,19 @@ export function BusinessDashboard() {
               </Fab>
             </Box>
             <h4>Scheduled Pickups</h4>
-            <Box className={classes.makeDonationBox}>
+            <Grid container spacing={2}>
               {pickups.map(pickup => (
-                <Card key={pickup.pickupid}>
-                  <CardContent>
-                    <h2>{pickup.foodtype}</h2>
-                    <p>{pickup.quantity} {pickup.quantityunit}</p>
-                  </CardContent>
-                </Card>
+                <Grid item key={pickup.pickupid}>
+                  <Card>
+                    <CardContent>
+                      <h2>{pickup.foodtype}</h2>
+                      <p>{pickup.quantity} {pickup.quantityunit}</p>
+                      <p>Pickup Time: {new Date(pickup.postdate).toDateString()}</p>
+                    </CardContent>
+                  </Card>
+                </Grid>
               ))}
-            </Box>
+            </Grid>
           </Box>
         </Paper>
       </Box>
