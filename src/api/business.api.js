@@ -10,7 +10,7 @@ const createPickup = async pickup => {
   const t = JSON.stringify(pickup);
 
   console.log(baseURL + 'pickups/add');
-  return await axiosWithAuth(baseURL).post('pickups/add', { t });
+  return await axiosWithAuth(baseURL).post('pickups/add', pickup);
 };
 
 export { createPickup };
