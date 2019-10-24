@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import store from "./reducers";
 
 import "./reset.css";
+import "./global.css";
 
 import * as serviceWorker from "./serviceWorker";
 
