@@ -10,6 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { authActionCreators } from '../actions';
+import { fontFamily } from '@material-ui/system';
 
 const StyledNavWrapper = styled.div`
   display: flex;
@@ -31,7 +32,8 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none'
   },
   button: {
-    color: '#23293B'
+    color: '#23293B',
+    fontFamily: 'inherit'
   }
 }));
 
