@@ -21,13 +21,13 @@ const useStyles = makeStyles(theme => ({
   wrapper: {
     display: 'grid',
     gridTemplateRows: '1fr 1fr',
-    gridGap: '10px'
+    gridGap: '10px',
   },
   pickupsTitleWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '10px'
+    marginBottom: '10px',
   },
   topSection: {
     backgroundColor: 'aliceblue',
@@ -38,35 +38,37 @@ const useStyles = makeStyles(theme => ({
   bottomSection: {
     backgroundColor: 'aliceblue',
     padding: '20px',
-    minHeight: '500px'
+    minHeight: '500px',
   },
   card: {
-    color: '#23293B'
+    color: '#23293B',
   },
   fab: {
     margin: theme.spacing(1),
   },
   extendedIcon: {
     marginRight: theme.spacing(1),
-  }
+  },
 }));
 
 const StyledGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
-`
+`;
 
 function BusinessCard({ data }) {
   const classes = useStyles();
-  
+
   return (
     <Card key={data.userid} className={classes.card}>
       <CardContent>
         <h2>{data.name}</h2>
         <p>{data.email}</p>
         <p>{data.address}</p>
-        <p>{data.city}, {data.state} {data.zip}</p>
+        <p>
+          {data.city}, {data.state} {data.zip}
+        </p>
       </CardContent>
     </Card>
   );
@@ -79,9 +81,13 @@ function PickupCard({ data, interaction }) {
     <Card className={classes.card}>
       <CardContent>
         <h2>{data.foodtype}</h2>
-        <p>{data.quantity} {data.quantityunit}</p>
+        <p>
+          {data.quantity} {data.quantityunit}
+        </p>
         <p>{data.deliveryaddress}</p>
-        <p>{data.deliverycity}, {data.deliverystate} {data.zip}</p>
+        <p>
+          {data.deliverycity}, {data.deliverystate} {data.zip}
+        </p>
         <p>Pickup Time: {new Date(data.postdate).toDateString()}</p>
       </CardContent>
     </Card>
@@ -92,28 +98,27 @@ export function VolunteerDashboard() {
   const classes = useStyles();
   const { user } = useSelector(state => state.authentication);
 
-  const [ pickups, setPickups ] = useState([]);
-  const [ filter, setFilter ] = useState(false);
-  const [ filteredPickups, setFilteredPickups ] = useState([]);
+  const [pickups, setPickups] = useState([]);
+  const [filter, setFilter] = useState(false);
+  const [filteredPickups, setFilteredPickups] = useState([]);
 
-  const [ businesses, setBusinesses ] = useState([]);
-  const [ filteredBusinesses, setFilteredBusinesses ] = useState([]);
-  const [ querying, setQuerying ] = useState(false);
-  
+  const [businesses, setBusinesses] = useState([]);
+  const [filteredBusinesses, setFilteredBusinesses] = useState([]);
+  const [querying, setQuerying] = useState(false);
+
   const renderPickups = filter
-                          ? filteredPickups.length
-                            ? filteredPickups
-                            : []
-                          : pickups;
+    ? filteredPickups.length
+      ? filteredPickups
+      : []
+    : pickups;
 
   const renderBusinesses = querying
-                          ? filteredBusinesses.length
-                            ? filteredBusinesses
-                            : []
-                          : businesses;
-  
-  console.log(renderBusinesses)
-                
+    ? filteredBusinesses.length
+      ? filteredBusinesses
+      : []
+    : businesses;
+
+  console.log(renderBusinesses);
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -127,57 +132,63 @@ export function VolunteerDashboard() {
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
-    .get('business/businesses')
-    .then(({ data }) => {
-      console.log('business data:', data);
-      setBusinesses(data);
-    }) 
+      .get('business/businesses')
+      .then(({ data }) => {
+        console.log('business data:', data);
+        setBusinesses(data);
+      });
   }, []);
 
   useEffect(() => {
     console.log(filter);
     filter ? filterCurrentRequests() : setFilteredPickups([]);
-  }, [filter])
+  }, [filter]);
 
   const filterCurrentRequests = () => {
-    const filteredList = pickups.filter(pickup => new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString());
+    const filteredList = pickups.filter(
+      pickup =>
+        new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString()
+    );
     setFilteredPickups(filteredList);
-  } 
+  };
 
   const searchBusinesses = event => {
     const query = event.target.value;
     query.length ? setQuerying(true) : setQuerying(false);
-    const filteredBusinesses = businesses.filter(business => (
-      business.name.toLowerCase().includes(query.toLowerCase()) ||
-      business.email.toLowerCase().includes(query.toLowerCase()) ||
-      business.address.toLowerCase().includes(query.toLowerCase()) ||
-      business.city.toLowerCase().includes(query.toLowerCase()) ||
-      business.state.toLowerCase().includes(query.toLowerCase()) ||
-      business.zip.toLowerCase().includes(query.toLowerCase())
-      ));
-      
-    console.log(filteredBusinesses)
+    const filteredBusinesses = businesses.filter(
+      business =>
+        business.name.toLowerCase().includes(query.toLowerCase()) ||
+        business.email.toLowerCase().includes(query.toLowerCase()) ||
+        business.address.toLowerCase().includes(query.toLowerCase()) ||
+        business.city.toLowerCase().includes(query.toLowerCase()) ||
+        business.state.toLowerCase().includes(query.toLowerCase()) ||
+        business.zip.toLowerCase().includes(query.toLowerCase())
+    );
+
+    console.log(filteredBusinesses);
     setFilteredBusinesses(filteredBusinesses);
-  }
+  };
 
   return (
     <Container className={classes.wrapper}>
-
       <Box>
         <h1>Welcome {user.name.split(' ')[0]}!</h1>
         <Paper className={classes.topSection}>
           <h2>My Pickups</h2>
           <Grid container justify="flex-start" spacing={2}>
-            {pickups.map(pickup => (
-              pickup.volunteer && pickup.volunteer.userid === user.userid && 
-                <Grid item key={pickup.pickupid}>
-                  <PickupCard data={pickup}/>
-                </Grid>
-            ))}
+            {pickups.map(
+              pickup =>
+                pickup.volunteer &&
+                pickup.volunteer.userid === user.userid && (
+                  <Grid item key={pickup.pickupid}>
+                    <PickupCard data={pickup} />
+                  </Grid>
+                )
+            )}
           </Grid>
         </Paper>
       </Box>
-      
+
       <Box>
         <Grid container spacing={4}>
           <Grid item xs={6}>
@@ -187,7 +198,7 @@ export function VolunteerDashboard() {
                 <div>
                   <span>Filter Today's Requests</span>
                   <Checkbox
-                    color='primary'
+                    color="primary"
                     onChange={() => setFilter(!filter)}
                     inputProps={{
                       'aria-label': 'uncontrolled-checkbox',
@@ -196,15 +207,16 @@ export function VolunteerDashboard() {
                 </div>
               </div>
               <StyledGrid container spacing={2}>
-                {
-                  renderPickups.map(pickup => (
-                  !pickup.volunteer && 
-                  <PickupCard key={pickup.pickupid} data={pickup}/>
-                ))}
+                {renderPickups.map(
+                  pickup =>
+                    !pickup.volunteer && (
+                      <PickupCard key={pickup.pickupid} data={pickup} />
+                    )
+                )}
               </StyledGrid>
             </Paper>
           </Grid>
-          
+
           <Grid item xs={6}>
             <Paper className={classes.bottomSection}>
               <div className={classes.pickupsTitleWrapper}>
@@ -217,7 +229,7 @@ export function VolunteerDashboard() {
               </div>
               <StyledGrid>
                 {renderBusinesses.map(business => (
-                  <BusinessCard key={business.userid} data={business}/>
+                  <BusinessCard key={business.userid} data={business} />
                 ))}
               </StyledGrid>
             </Paper>

@@ -1,26 +1,17 @@
-import { register, login, logout } from "../api";
+import { register, login, logout } from '../api';
 
-const REGISTER_REQUEST = "USERS_REGISTER_REQUEST";
-const REGISTER_SUCCESS = "USERS_REGISTER_SUCCESS";
-const REGISTER_FAILURE = "USERS_REGISTER_FAILURE";
+const REGISTER_REQUEST = 'USERS_REGISTER_REQUEST';
+const REGISTER_SUCCESS = 'USERS_REGISTER_SUCCESS';
+const REGISTER_FAILURE = 'USERS_REGISTER_FAILURE';
 
-const LOGIN_REQUEST = "USERS_LOGIN_REQUEST";
-const LOGIN_SUCCESS = "USERS_LOGIN_SUCCESS";
-const LOGIN_FAILURE = "USERS_LOGIN_FAILURE";
+const LOGIN_REQUEST = 'USERS_LOGIN_REQUEST';
+const LOGIN_SUCCESS = 'USERS_LOGIN_SUCCESS';
+const LOGIN_FAILURE = 'USERS_LOGIN_FAILURE';
 
-const LOGOUT = "USERS_LOGOUT";
+const LOGOUT = 'USERS_LOGOUT';
 
 const registerUser = (
-  {
-    userType,
-    email,
-    name,
-    password,
-    address = "",
-    city = "",
-    state = "",
-    zip = ""
-  },
+  { userType, email, name, password, address = '', city = '', state = '', zip = '' },
   redirect
 ) => async dispatch => {
   const user = {
@@ -30,7 +21,7 @@ const registerUser = (
     address,
     city,
     state,
-    zip
+    zip,
   };
 
   dispatch({ type: REGISTER_REQUEST });
@@ -72,11 +63,11 @@ export const authActionTypes = {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT
+  LOGOUT,
 };
 
 export const authActionCreators = {
   registerUser,
   loginUser,
-  logoutUser
+  logoutUser,
 };
