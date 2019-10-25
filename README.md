@@ -1,8 +1,5 @@
-# React Starter
+# Replate
 
-After running `npx create-react-app my-app` a whole bunch of times only to find myself deleting a bunch of files, adding `react-router-dom` and `styled-components`, and setting up a simple router for almost all my projects, I decided to just make myself a really simple starter that I can use for prototyping and getting projects quickly off the ground.
-
-_Definitely subject to change as my interests in personal projects changes_
 
 ## Available Scripts
 
