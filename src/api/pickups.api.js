@@ -14,4 +14,9 @@ const pickups = async () => {
     .then(handlePickups);
 };
 
-export { pickups };
+const claim = async (pickupID, volunteerID) => {
+  console.log(baseURL + `pickups/${pickupID}/${volunteerID}`);
+  return await axiosWithAuth(baseURL).post(`pickups/${pickupID}/${volunteerID}`, {});
+};
+
+export { pickups, claim };

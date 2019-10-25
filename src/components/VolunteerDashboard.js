@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
@@ -16,6 +16,7 @@ import CardActions from '@material-ui/core/CardActions';
 import styled from 'styled-components';
 
 import { axiosWithAuth } from '../utils';
+import { pickupsActionCreators } from '../actions';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -74,8 +75,21 @@ function BusinessCard({ data }) {
   );
 }
 
-function PickupCard({ data, interaction }) {
+function PickupCard({ data, userID, claim }) {
   const classes = useStyles();
+  const { pickupid } = data;
+
+  const claimButton = (
+    <Fab
+      disabled={null}
+      onClick={() => claim(pickupid, userID)}
+      color='primary'
+      size='small'
+      aria-label='add'
+      className={classes.fab}>
+      <AddIcon />
+    </Fab>
+  );
 
   return (
     <Card className={classes.card}>
@@ -89,6 +103,12 @@ function PickupCard({ data, interaction }) {
           {data.deliverycity}, {data.deliverystate} {data.zip}
         </p>
         <p>Pickup Time: {new Date(data.postdate).toDateString()}</p>
+        {claim && (
+          <h3>
+            Claim Pickup
+            {claimButton}
+          </h3>
+        )}
       </CardContent>
     </Card>
   );
@@ -97,8 +117,10 @@ function PickupCard({ data, interaction }) {
 export function VolunteerDashboard() {
   const classes = useStyles();
   const { user } = useSelector(state => state.authentication);
-
-  const [pickups, setPickups] = useState([]);
+  const { pickups } = useSelector(state => state.pickups);
+  console.log(pickups);
+  const dispatch = useDispatch();
+  const [availablePickups, setAvailablePickups] = useState([]);
   const [filter, setFilter] = useState(false);
   const [filteredPickups, setFilteredPickups] = useState([]);
 
@@ -106,29 +128,21 @@ export function VolunteerDashboard() {
   const [filteredBusinesses, setFilteredBusinesses] = useState([]);
   const [querying, setQuerying] = useState(false);
 
-  const renderPickups = filter
-    ? filteredPickups.length
-      ? filteredPickups
-      : []
-    : pickups;
+  const renderPickups = filter ? (filteredPickups.length ? filteredPickups : []) : availablePickups;
 
-  const renderBusinesses = querying
-    ? filteredBusinesses.length
-      ? filteredBusinesses
-      : []
-    : businesses;
+  const renderBusinesses = querying ? (filteredBusinesses.length ? filteredBusinesses : []) : businesses;
 
   console.log(renderBusinesses);
 
   useEffect(() => {
+    dispatch(pickupsActionCreators.fetchPickups());
     axiosWithAuth('https://replate-server.herokuapp.com/')
       .get('pickups/pickups')
-      .then(({ data }) => {
-        console.log('pickup data:', data);
-        setPickups(data);
-      })
-      .catch(err => console.log(err));
-  }, []);
+      .then(res => {
+        console.log(res);
+        setAvailablePickups([...res.data]);
+      });
+  }, [dispatch]);
 
   useEffect(() => {
     axiosWithAuth('https://replate-server.herokuapp.com/')
@@ -145,9 +159,8 @@ export function VolunteerDashboard() {
   }, [filter]);
 
   const filterCurrentRequests = () => {
-    const filteredList = pickups.filter(
-      pickup =>
-        new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString()
+    const filteredList = availablePickups.filter(
+      pickup => new Date(pickup.postdate).toDateString() === new Date(Date.now()).toDateString()
     );
     setFilteredPickups(filteredList);
   };
@@ -169,13 +182,17 @@ export function VolunteerDashboard() {
     setFilteredBusinesses(filteredBusinesses);
   };
 
+  const handleClaim = (pickupID, volunteerID) => {
+    dispatch(pickupsActionCreators.claimPickup(pickupID, volunteerID));
+  };
+
   return (
     <Container className={classes.wrapper}>
       <Box>
         <h1>Welcome {user.name.split(' ')[0]}!</h1>
         <Paper className={classes.topSection}>
           <h2>My Pickups</h2>
-          <Grid container justify="flex-start" spacing={2}>
+          <Grid container justify='flex-start' spacing={2}>
             {pickups.map(
               pickup =>
                 pickup.volunteer &&
@@ -198,7 +215,7 @@ export function VolunteerDashboard() {
                 <div>
                   <span>Filter Today's Requests</span>
                   <Checkbox
-                    color="primary"
+                    color='primary'
                     onChange={() => setFilter(!filter)}
                     inputProps={{
                       'aria-label': 'uncontrolled-checkbox',
@@ -210,7 +227,7 @@ export function VolunteerDashboard() {
                 {renderPickups.map(
                   pickup =>
                     !pickup.volunteer && (
-                      <PickupCard key={pickup.pickupid} data={pickup} />
+                      <PickupCard key={pickup.pickupid} data={pickup} userID={user.userid} claim={handleClaim} />
                     )
                 )}
               </StyledGrid>
@@ -221,11 +238,7 @@ export function VolunteerDashboard() {
             <Paper className={classes.bottomSection}>
               <div className={classes.pickupsTitleWrapper}>
                 <h2>Local Businesses</h2>
-                <TextField
-                  label="Search"
-                  onChange={searchBusinesses}
-                  className={classes.textField}
-                />
+                <TextField label='Search' onChange={searchBusinesses} className={classes.textField} />
               </div>
               <StyledGrid>
                 {renderBusinesses.map(business => (
