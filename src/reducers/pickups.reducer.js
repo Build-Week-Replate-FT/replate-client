@@ -19,6 +19,12 @@ export function pickups(state = initialState, action) {
       return {
         pickups: [...state.pickups, ...action.payload],
       };
+    case UPDATE_PICKUPS:
+      console.log(UPDATE_PICKUPS);
+      console.log(action.payload);
+      return {
+        pickups: [...action.payload],
+      };
     default:
       return state;
   }

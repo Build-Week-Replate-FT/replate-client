@@ -11,6 +11,9 @@ const createPickupAction = pickup => async dispatch => {
       console.log(pickupResponse);
       dispatch({
         type: CREATE_PICKUP_SUCCESS,
+      });
+      dispatch({
+        type: `UPDATE_PICKUPS`,
         payload: pickupResponse.data.business.businesspickups,
       });
     })
