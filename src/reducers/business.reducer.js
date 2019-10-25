@@ -1,18 +1,11 @@
 import { getUser } from '../api';
-import { businessActionTypes } from '../actions';
-
-const { CREATE_PICKUP_REQUEST, CREATE_PICKUP_SUCCESS, CREATE_PICKUP_FAILURE } = businessActionTypes;
-
-const user = getUser() || {};
-const pickupsList = user.business ? user.business.businesspickups : [];
+import {
+  CREATE_PICKUP_REQUEST,
+  CREATE_PICKUP_SUCCESS,
+  CREATE_PICKUP_FAILURE,
+} from '../actions.types';
 
 const initialState = {
-  pickups: {
-    isPending: false,
-    isSettled: false,
-    error: null,
-    pickupsList: pickupsList,
-  },
   createPickup: {
     isPending: false,
     isSettled: false,

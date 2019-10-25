@@ -13,18 +13,22 @@ const initialState = {
 
 export function pickups(state = initialState, action) {
   switch (action.type) {
+    case FETCH_PICKUPS_REQUEST:
+      console.log(FETCH_PICKUPS_REQUEST);
+      return state;
     case FETCH_PICKUPS_SUCCESS:
       console.log(FETCH_PICKUPS_SUCCESS);
-      console.log(action.payload);
       return {
         pickups: [...state.pickups, ...action.payload],
       };
     case UPDATE_PICKUPS:
       console.log(UPDATE_PICKUPS);
-      console.log(action.payload);
       return {
         pickups: [...action.payload],
       };
+    case FETCH_PICKUPS_FAILURE:
+      console.log(FETCH_PICKUPS_FAILURE);
+      return state;
     default:
       return state;
   }

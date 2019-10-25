@@ -1,8 +1,9 @@
 import { createPickup } from '../api';
-
-const CREATE_PICKUP_REQUEST = `CREATE_PICKUP_REQUEST`;
-const CREATE_PICKUP_SUCCESS = `CREATE_PICKUP_SUCCESS`;
-const CREATE_PICKUP_FAILURE = `CREATE_PICKUP_FAILURE`;
+import {
+  CREATE_PICKUP_REQUEST,
+  CREATE_PICKUP_SUCCESS,
+  CREATE_PICKUP_FAILURE,
+} from '../actions.types';
 
 const createPickupAction = pickup => async dispatch => {
   dispatch({ type: CREATE_PICKUP_REQUEST });
@@ -22,12 +23,6 @@ const createPickupAction = pickup => async dispatch => {
       console.error(error);
       dispatch({ type: CREATE_PICKUP_FAILURE, payload: error });
     });
-};
-
-export const businessActionTypes = {
-  CREATE_PICKUP_REQUEST,
-  CREATE_PICKUP_SUCCESS,
-  CREATE_PICKUP_FAILURE,
 };
 
 export const businessActionCreators = {
