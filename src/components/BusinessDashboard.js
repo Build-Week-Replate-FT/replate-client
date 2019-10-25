@@ -108,7 +108,7 @@ export function BusinessDashboard() {
             <Box>
               <h2 className={classes.subTitle}>Scheduled Pickups</h2>
               <Grid container spacing={2}>
-                {pickups.pickupsList.map(pickup => (
+                {pickups.map(pickup => (
                   <Grid item key={pickup.pickupid}>
                     <Card>
                       <CardContent>
