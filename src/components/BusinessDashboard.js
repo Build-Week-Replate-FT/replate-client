@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -10,7 +10,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 
-import { businessActionCreators } from '../actions';
+import { businessActionCreators, pickupsActionCreators } from '../actions';
 import { SchedulePickupForm } from './SchedulePickupForm';
 
 const useStyles = makeStyles(theme => ({
@@ -49,9 +49,14 @@ export function BusinessDashboard() {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
-  const { pickups } = useSelector(state => state.business);
+  const { pickups } = useSelector(state => state.pickups);
+  console.log(pickups);
   const dispatch = useDispatch();
   const [scheduling, setScheduling] = useState(false);
+
+  useEffect(() => {
+    dispatch(pickupsActionCreators.fetchPickups());
+  }, [dispatch]);
 
   const schedulePickup = () => {
     console.log('setting scheduling to: ', !scheduling);
@@ -88,10 +93,11 @@ export function BusinessDashboard() {
               <Fab
                 disabled={scheduling}
                 onClick={schedulePickup}
-                color='primary'
-                size='small'
-                aria-label='add'
-                className={classes.fab}>
+                color="primary"
+                size="small"
+                aria-label="add"
+                className={classes.fab}
+              >
                 <AddIcon />
               </Fab>
             </Box>
@@ -103,7 +109,7 @@ export function BusinessDashboard() {
             <Box>
               <h2 className={classes.subTitle}>Scheduled Pickups</h2>
               <Grid container spacing={2}>
-                {pickups.pickupsList.map(pickup => (
+                {pickups.map(pickup => (
                   <Grid item key={pickup.pickupid}>
                     <Card>
                       <CardContent>
