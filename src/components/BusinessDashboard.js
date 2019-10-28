@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function BusinessDashboard() {
+export function BusinessDashboard(props) {
   const classes = useStyles();
 
   const { user } = useSelector(state => state.authentication);
